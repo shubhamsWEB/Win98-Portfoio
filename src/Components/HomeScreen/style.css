@@ -1,0 +1,470 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: arial, helvetica !important;
+    font-weight: light;
+}
+.hide {
+    display: none;
+}
+.show {
+    display: block;
+}
+.desktop, body {
+    background: #008080;
+    height: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+}
+.desktop.windowsXP, body.windowsXP {
+    background-image: url(https://i.imgur.com/lojmr.jpg);
+    background-size: cover;
+}
+.dock {
+    background: #c0c0c0;
+    height: 35px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-top: 2px solid #efefef;
+    padding: 3px;
+    z-index: 1000;
+}
+.dock-time {
+    border-top: 2px solid #666;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    border-left: 2px solid #666;
+    float: right;
+    padding: 5px 15px 5px 35px;
+    font-size: 14px;
+    background: url(https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Gnome-audio-volume-high.svg/120px-Gnome-audio-volume-high.svg.png);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+}
+.start-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    line-height: 25px;
+    font-weight: bold;
+    padding-left: 31px;
+    padding-right: 7px;
+    height: 29px;
+    background-image: url('http://vignette4.wikia.nocookie.net/logopedia/images/b/b3/Windows_logo_(Pre-XP)_alt._color.svg.png/revision/latest?cb=20160311145452');
+    background-repeat: no-repeat;
+    background-size: 22px;
+    background-position: 5px center;
+    background-color: #c0c0c0;
+    border-top: 2px solid white;
+    border-right: 2px solid #222;
+    border-bottom: 2px solid #222;
+    border-left: 2px solid white;
+}
+.start-btn.active {
+    border-top: 2px solid #222;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    border-left: 2px solid #222;
+}
+.start-menu {
+    position: absolute;
+    bottom: 35px;
+    left: 0;
+    background: #c0c0c0;
+    border-top: 2px solid white;
+    border-right: 2px solid #222;
+    border-bottom: 2px solid #222;
+    border-left: 2px solid white;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    font-size: 14px;
+    display: none;
+}
+.start-menu.open {
+    display: block;
+}
+.start-menu .title-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 37px;
+    height: 100%;
+    background: linear-gradient(#000184 60%, #0f80cd);
+}
+.start-menu .title-container .title {
+    position: absolute;
+    transform: rotate(-90deg);
+    color: white;
+    top: 430px;
+    left: -51px;
+    font-size: 25px;
+    font-weight: bold;
+}
+.start-menu .title-container .title span {
+    font-weight: 100;
+}
+.start-menu hr {
+    margin: 0 4px 0 40px;
+}
+.start-menu ul {
+    margin: 0;
+    padding: 0;
+}
+.start-menu ul li {
+    padding: 18px 100px 18px 100px;
+    list-style: none;
+    background-repeat: no-repeat;
+    background-position: 48px center;
+    background-size: 33px;
+}
+.start-menu ul li.covid19 {
+    background-image: url('../../assets/images/covid19.png');
+}
+.start-menu ul li.ewallet {
+    background-image: url('../../assets/images/Ewallet.png');
+}
+.start-menu ul li.crickboard {
+    background-image: url('../../assets/images/crickboard.png');
+}
+.start-menu ul li.inventory {
+    background-image: url("../../assets/images/Inventory.png");
+}
+.start-menu ul li.movieapp {
+    background-image: url('../../assets/images/movieapp.png');
+}
+.start-menu ul li.npm {
+    background-image: url("../../assets/images/npm.jpeg");
+}
+.start-menu ul li.samvid {
+    background-image: url('../../assets/images/Samvid.png');
+}
+.start-menu ul li.samvid20 {
+    background-image: url('../../assets/images/samvid20.png');
+}
+.start-menu ul li.sudoku {
+    background-image: url('../../assets/images/Sudoku.png');
+}
+.start-menu ul li.shut-down {
+    background-image: url(https://66.media.tumblr.com/1f29d811f6e2bb3f8fbe912057fc6e58/tumblr_odqaag4zd41vgs7gco10_75sq.png);
+}
+.start-menu ul li:hover {
+    background-color: #000184;
+    color: white;
+    cursor: pointer;
+}
+.window-container-custom {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 60%;
+    height: 50%;
+}
+
+.window-container-custom.full {
+    width:100%;
+    height:100%;
+}
+.window-custom {
+    width:80%;
+    height:70vh;
+    border-top: 2px solid white;
+    border-right: 2px solid #222;
+    border-bottom: 2px solid #222;
+    border-left: 2px solid white;
+    margin: 20px auto;
+    background: #c0c0c0;
+    display: block;
+    position: relative;
+    margin-top: -300px;
+}
+.window-custom.full {
+    margin:0 !important;
+    width:100%;
+    height:100vh;
+    position: absolute;
+    top:0;
+}
+.window-title {
+    position: relative;
+    background: linear-gradient(90deg, #000184, #0f80cd);
+    padding: 4px 6px 5px;
+    color: white;
+    font-size: 15px;
+    margin-right: 2px;
+    text-align: left;
+}
+.window-title:hover {
+    cursor: move;
+}
+.window-body-custom {
+    /* padding: 18px 90px 20px 100px; */
+    font-size: 14px;
+    /* text-align: left; */
+    background:#fff;
+    margin: 0 !important;
+    padding: 0!important;
+    height: 95%;
+}
+.window-body-custom.full {
+    height:100%;
+    width:100%;
+}
+.desktop-icons {
+    margin: 20px;
+    text-align: center;
+    width: 100px;
+}
+.desktop-icons .icon {
+    display: block;
+    margin-bottom: 20px;
+}
+.desktop-icons img {
+    display: block;
+    margin: 5px auto;
+}
+.desktop-icons p {
+    color: rgba(255, 255, 255, .8);
+    font-size: 12px;
+    margin: 0;
+}
+/* input[type=checkbox]:not(old), input[type=radio]:not(old) {
+    width: 2em;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    opacity: 0;
+}
+input[type=checkbox]:not(old) + label, input[type=radio]:not(old) + label {
+    display: inline-block;
+    margin-left: -2em;
+    line-height: 1.5em;
+}
+input[type=checkbox]:not(old) + label > span, input[type=radio]:not(old) + label > span {
+    display: inline-block;
+    width: 0.875em;
+    height: 0.875em;
+    margin: 0.25em 0.5em 0.25em 0.25em;
+    border-radius: 50%;
+    border-bottom: 2px solid #eee;
+    border-right: 2px solid #eee;
+    border-left: 2px solid #333;
+    border-top: 2px solid #333;
+    background: white;
+    vertical-align: bottom;
+}
+input[type=radio]:not(old):checked + label > span:before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: black;
+    display: block;
+    transform: translate(3px, 3px);
+} */
+.window-button-row {
+    margin: 10px 20px 12px;
+    float: right;
+}
+.btn {
+    margin: 0;
+    line-height: 1;
+    display: inline-block;
+    padding: 5px 25px;
+    width: 100px;
+    background: #c0c0c0;
+    border-top: 2px solid white;
+    border-right: 2px solid #222;
+    border-bottom: 2px solid #222;
+    border-left: 2px solid white;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+}
+.btn.primary {
+    border-top: 2px solid #444;
+    border-left: 2px solid #444;
+    box-shadow: inset 1px 1px white, inset -1px -1px #777;
+}
+.btn-close {
+    font-size: 12px;
+    color: black;
+    background: #c0c0c0;
+    display: inline-block;
+    width: 23px;
+    height: 20px;
+    text-align: center;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    border-top: 2px solid white;
+    border-right: 2px solid #222;
+    border-bottom: 2px solid #222;
+    border-left: 2px solid white;
+    line-height: 16px;
+    font-family: helvetica;
+}
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: rgba(0, 0, 0, 1);
+    z-index: 1001;
+    opacity: 0;
+    transition: 1s;
+    transform: translate(-50%, -50%);
+}
+.overlay.on {
+    width: 100vw;
+    height: 100vh;
+    margin-top: -8px;
+    opacity: 1;
+}
+.my-documents {
+    width: 100px;
+}
+.my-documents img {
+    max-width: 100%;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+.power-button {
+    animation: power-button-glow 3s infinite ease-in-out;
+    animation-delay: 3s;
+    width: 200px;
+}
+.power-button:hover {
+    cusor: pointer;
+}
+.power-button.on {
+    animation: power-button-turning-on 2s forwards ease-in;
+    fill: green;
+}
+@keyframes power-button-glow {
+    0% {
+        fill: #444;
+   }
+    50% {
+        fill: orange;
+   }
+    100% {
+        fill: #444;
+   }
+}
+@keyframes power-button-turning-on {
+    0% {
+        fill: #444;
+   }
+    10% {
+        fill: #004c00;
+   }
+    100% {
+        fill: #0f0;
+   }
+}
+.svg-container {
+    width: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.turn-on-computer:hover {
+    cursor: pointer;
+}
+.window-container-power {
+    text-align: center;
+    position: relative;
+  }
+  .window-power {
+    margin: 20px auto;
+    background: #c0c0c0;
+    background-image: url(https://67.media.tumblr.com/35e35ebc731bd19de75af73ae904ecd4/tumblr_n8gxp1JWwO1r6zgh0o1_500.gif);
+    background-repeat: no-repeat;
+    background-size: 60px;
+    background-position: 15px 55px;
+    display: inline-block;
+    position: relative;
+    bottom: 230px;
+  }
+  .window-body-power {
+    /* padding: 18px 90px 20px 100px; */
+    font-size: 14px;
+    /* text-align: left; */
+    background:#c0c0c0;
+    margin: 0 !important;
+    padding: 0!important;
+    height: 95%;
+}
+.power-window {
+    width: 30% ;
+}
+.work-window-container {
+    display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: row;
+   flex-direction: row;
+   -webkit-justify-content: space-evenly;
+   justify-content: space-evenly;
+   height: 100%;
+}
+.flex1 {
+    flex: 20%;
+    height: 100%;
+}
+.flex2 {
+    flex: 80%;
+    flex-direction: row;
+    display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  height:20px;
+    -webkit-justify-content: space-evenly;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.status-bar-custom  {
+    display: flex;
+    margin:0;
+    padding: 3px;
+}
+.status-bar-custom li {
+    margin-left:18px;
+    font-size:13px;
+}
+.small_icon {
+    width:23px !important;
+    height:23px !important;
+}
+.medium_icon {
+    width:60px !important;
+    height:60px !important;
+    border-radius: 50%;
+}
+.center {
+    text-align: center;
+}
+.project-icon {
+    margin-top:15px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .window-container {
+        
+        top: 80%;
+       
+        height: 50%;
+    }
+}
