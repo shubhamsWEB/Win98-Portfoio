@@ -29,11 +29,11 @@ function HomeScreenComponent() {
     setWorkWindow(!showWorkWindow);
   };
   const openAboutPage = () => {
-    setUrl("http://www.shubhamsweb.in/#/about");
+    setUrl("https://shubham-agrawal.netlify.app/#/about");
     setWindow(true);
   };
   const openHomePage = () => {
-    setUrl("http://www.shubhamsweb.in/#/");
+    setUrl("https://shubham-agrawal.netlify.app/");
     setWindow(true);
   };
   const openChromePage = () => {
