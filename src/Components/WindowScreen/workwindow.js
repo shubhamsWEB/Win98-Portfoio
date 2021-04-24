@@ -22,7 +22,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
         }`}
       >
         <div className="title-bar">
-          <div className="title-bar-text">A Window With Stuff In It</div>
+          <div className="title-bar-text">Some of My Recent Projects</div>
           <div className="title-bar-controls">
             <button aria-label="Minimize"></button>
             <button

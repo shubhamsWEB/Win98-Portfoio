@@ -8,7 +8,6 @@ function Boot() {
   React.useEffect(() => {
     for(let i = 0; i < BiosRef.current.children.length; i++) {
       setTimeout(function timer() {
-        console.log(BiosRef.current.children[i]);
         BiosRef.current.children[i].style.visibility ="visible";
         if(i ===BiosRef.current.children.length-1) {
          setBooting(false);

@@ -4,6 +4,7 @@ import DesktopIcon from "../DesktopIcons";
 import WindowScreen from "../WindowScreen";
 import PowerWindowScreen from "../WindowScreen/powerwindow";
 import WorkWindowScreen from "../WindowScreen/workwindow";
+import FormWindowScreen from "../WindowScreen/messageFormWindow";
 import Overlay from "../Overlay";
 import AboutImg from "../../assets/images/users.png";
 import HomeImg from "../../assets/images/computer.png";
@@ -12,64 +13,89 @@ import GithubImg from "../../assets/images/github.png";
 import LinkedInImg from "../../assets/images/linkedin.png";
 import ExplorerImg from "../../assets/images/explorer.png";
 import TwitterImg from "../../assets/images/twitter.png";
-import TextImg from "../../assets/images/text.png";
-import BootScreen from '../BiosBoot';
+import SudokuImg from "../../assets/images/sudokuicon.webp";
+import MessageImg from "../../assets/images/message.png";
+import StartupAudio from "../../assets/sounds/WinStartup.mp3";
+import ReactAudioPlayer from "react-audio-player";
+import BootScreen from "../BiosBoot";
 import { motion } from "framer-motion";
 
 import "./style.css";
 function HomeScreenComponent() {
   const [showWindow, setWindow] = React.useState(false);
   const [showWorkWindow, setWorkWindow] = React.useState(false);
+  const [showMessageWindow, setMessageWindow] = React.useState(false);
   const [showPowerWindow, setPowerWindow] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [iframeUrl, setUrl] = React.useState("");
   const [togglePower, setPower] = React.useState(false);
+  const [windowTitle, setWindowTitle] = React.useState("");
   const constraintsRef = React.useRef(null);
   const openProjectsPage = () => {
     setWorkWindow(!showWorkWindow);
   };
+  const openMessageForm = () => {
+    setMessageWindow(!showMessageWindow);
+  };
   const openAboutPage = () => {
     setUrl("https://shubham-agrawal.netlify.app/#/about");
+    setWindowTitle("About Shubham Agrawal");
     setWindow(true);
   };
   const openHomePage = () => {
     setUrl("https://shubham-agrawal.netlify.app/");
+    setWindowTitle("Its Me Shubham Agrawal");
     setWindow(true);
   };
   const openChromePage = () => {
     setUrl("https://www.google.com/");
+    setWindowTitle("Ah! Just open it on Google!! :/");
+    setWindow(true);
+  };
+  const openSudokuApp = () => {
+    setUrl("https://thirsty-sammet-d9cce0.netlify.app/");
+    setWindowTitle("Sudoku App");
     setWindow(true);
   };
   const openGithubPage = () => {
-    window.open("https://github.com/shubhamsWEB", '_blank');
+    window.open("https://github.com/shubhamsWEB", "_blank");
   };
   const openLinkedInPage = () => {
-    window.open("https://www.linkedin.com/in/shubham-agrawal-950078170/", '_blank');
+    window.open(
+      "https://www.linkedin.com/in/shubham-agrawal-950078170/",
+      "_blank"
+    );
   };
   const openTwitterPage = () => {
-    window.open("https://twitter.com/devShubham_17", '_blank');
+    window.open("https://twitter.com/devShubham_17", "_blank");
   };
+  
 
   React.useEffect(() => {
     window.addEventListener("load", () => {
       setTimeout(function () {
         setIsLoading(false);
-      }, 15000);
+      }, 12000);
     });
   });
 
   return (
     <>
       {isLoading ? (
-        <div className="loading-screen">
-          <BootScreen/>
-        </div>
+        <div className="loading-screen"><BootScreen /> </div>
       ) : (
         <>
           <Overlay togglePower={togglePower} setPower={setPower} />
           <motion.div ref={constraintsRef}>
             <div className="desktop">
-              <div className="desktop-icons">
+              <div
+                className="desktop-icons"
+                style={{
+                  display: "grid",
+                  gridTemplateRows: "auto auto auto auto",
+                  gridTemplateColumns: "auto auto",
+                }}
+              >
                 <motion.div
                   drag
                   dragConstraints={constraintsRef}
@@ -150,8 +176,31 @@ function HomeScreenComponent() {
                     onClick={openTwitterPage}
                   />
                 </motion.div>
+                <motion.div
+                  drag
+                  dragConstraints={constraintsRef}
+                  dragMomentum={false}
+                >
+                  <DesktopIcon
+                    imgSrc={SudokuImg}
+                    title="Sudoku"
+                    small="medium_icon"
+                    onClick={openSudokuApp}
+                  />
+                </motion.div>
+                <motion.div
+                  drag
+                  dragConstraints={constraintsRef}
+                  dragMomentum={false}
+                >
+                  <DesktopIcon
+                    imgSrc={MessageImg}
+                    title="Send a Message"
+                    // small="small_icon"
+                    onClick={openMessageForm}
+                  />
+                </motion.div>
               </div>
-
               <Dock
                 togglePower={togglePower}
                 setPower={setPower}
@@ -163,6 +212,7 @@ function HomeScreenComponent() {
                   setIsHidden={setWindow}
                   isHidden={showWindow}
                   constraintsRef={constraintsRef}
+                  title={windowTitle}
                 >
                   <iframe
                     src={iframeUrl}
@@ -177,6 +227,12 @@ function HomeScreenComponent() {
                 <WorkWindowScreen
                   setIsHidden={setWorkWindow}
                   isHidden={showWorkWindow}
+                />
+              )}
+              {showMessageWindow && (
+                <FormWindowScreen
+                  setIsHidden={setMessageWindow}
+                  isHidden={showMessageWindow}
                 />
               )}
               {showPowerWindow && (

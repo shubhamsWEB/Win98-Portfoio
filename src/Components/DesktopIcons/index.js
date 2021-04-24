@@ -9,7 +9,7 @@ function Icons({imgSrc,title,onClick,...rest}) {
         draggable={false}
         className={`${rest.small}`}
       />
-      <p>{title}</p>
+      <p style={{fontFamily:'AMIBios'}}>{title}</p>
     </div>
   );
 }
