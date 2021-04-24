@@ -6,7 +6,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
   const nameRef = React.useRef("");
   const emailRef = React.useRef("");
   const messageRef = React.useRef("");
-  
+  const[isSent,setSentStatus] = React.useState(false);
 
   const maximizeWindow = () => {
     setMaximize(!maximize);
@@ -16,6 +16,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
   };
   const sendmessage = () => {
     if (nameRef.current.value != "" && emailRef.current.value != "") {
+        setSentStatus(!isSent);
       const templateParams = {
         from_name: nameRef.current.value,
         reply_to: emailRef.current.value,
@@ -31,9 +32,16 @@ function WorkWindow({ isHidden, setIsHidden }) {
         .then(
           function (response) {
             console.log("SUCCESS!", response.status, response.text);
-
+            nameRef.current.value='';
+            emailRef.current.value='';
+            messageRef.current.value='';
+            setSentStatus(false);
+            onClose();
+            
           },
           function (err) {
+            setSentStatus(false);
+            alert("Some Error occured")
             console.log("ERROR!", err);
           }
         );
@@ -73,13 +81,13 @@ function WorkWindow({ isHidden, setIsHidden }) {
                 <label for="text18" style={{ fontFamily: "AMIBios" }}>
                   Your Name
                 </label>
-                <input id="text18" type="text" ref={nameRef} value={nameRef.current.value} />
+                <input id="text18" type="text" ref={nameRef} />
               </div>
               <div class="field-row-stacked" style={{ width: "200px" }}>
                 <label for="text19" style={{ fontFamily: "AMIBios" }}>
                   Your Email
                 </label>
-                <input id="text19" type="text" ref={emailRef} value={emailRef.current.value} />
+                <input id="text19" type="text" ref={emailRef} />
               </div>
               <div class="field-row-stacked" style={{ width: "400px" }}>
                 <label for="text20" style={{ fontFamily: "AMIBios" }}>
@@ -90,14 +98,15 @@ function WorkWindow({ isHidden, setIsHidden }) {
                   id="text20"
                   rows="8"
                   ref={messageRef}
-                  value={messageRef.current.value}
                 ></textarea>
               </div>
               <button
                 style={{ marginTop: 20, fontFamily: "AMIBios" }}
-                onClick={() =>sendmessage()}
+                onClick={() =>{!isSent? sendmessage():alert("Message Sent")}}
+                type="button"
+                disabled={!isSent?false:true}
               >
-                Send message
+                Send message!
               </button>
             </center>
           </div>
