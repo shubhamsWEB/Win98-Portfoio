@@ -2,7 +2,7 @@ import React from "react";
 
 function Icons({imgSrc,title,onClick,...rest}) {
   return (
-    <div className={`icon ${rest.className}`} onDoubleClick={() => onClick()}>
+    <div className={`icon ${rest.className}`}  onDoubleClick={() => onClick()}>
       <img
         src={imgSrc}
         alt=""

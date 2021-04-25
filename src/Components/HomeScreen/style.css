@@ -228,6 +228,12 @@ body.windowsXP {
 .desktop-icons .icon {
   margin-bottom: 20px;
 }
+.desktop-icons .icon:active {
+  background:rgba(0, 0, 255,.2);
+  border: #fff;
+  border-style: dotted;
+  border-width: 1px;
+}
 .desktop-icons img {
   display: block;
   margin: 5px auto;
