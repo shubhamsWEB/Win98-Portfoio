@@ -1,12 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import emailjs from 'emailjs-com';
-function WorkWindow({ isHidden, setIsHidden }) {
+import emailjs from "emailjs-com";
+import BeepSound from "../../assets/sounds/beep.mp3";
+function WorkWindow({ isHidden, setIsHidden, setError, setSuccess }) {
   const [maximize, setMaximize] = React.useState(false);
   const nameRef = React.useRef("");
   const emailRef = React.useRef("");
   const messageRef = React.useRef("");
-  const[isSent,setSentStatus] = React.useState(false);
+  const [isSent, setSentStatus] = React.useState(false);
 
   const maximizeWindow = () => {
     setMaximize(!maximize);
@@ -16,7 +17,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
   };
   const sendmessage = () => {
     if (nameRef.current.value != "" && emailRef.current.value != "") {
-        setSentStatus(!isSent);
+      setSentStatus(!isSent);
       const templateParams = {
         from_name: nameRef.current.value,
         reply_to: emailRef.current.value,
@@ -32,19 +33,22 @@ function WorkWindow({ isHidden, setIsHidden }) {
         .then(
           function (response) {
             console.log("SUCCESS!", response.status, response.text);
-            nameRef.current.value='';
-            emailRef.current.value='';
-            messageRef.current.value='';
+            nameRef.current.value = "";
+            emailRef.current.value = "";
+            messageRef.current.value = "";
             setSentStatus(false);
+            setSuccess(true);
+            new Audio(BeepSound).play();
             onClose();
-            
           },
           function (err) {
             setSentStatus(false);
-            alert("Some Error occured")
+            setError(true);
             console.log("ERROR!", err);
           }
         );
+    } else {
+      alert("Please Enter all fields");
     }
   };
   return (
@@ -75,7 +79,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
                 I like making things and meeting new people.
               </h4>
               <h4 style={{ fontFamily: "AMIBios" }}>
-                And I’m eager to receive your feedback. :)
+                Always happy to hear from you. :)
               </h4>
               <div class="field-row-stacked" style={{ width: "200px" }}>
                 <label for="text18" style={{ fontFamily: "AMIBios" }}>
@@ -102,9 +106,11 @@ function WorkWindow({ isHidden, setIsHidden }) {
               </div>
               <button
                 style={{ marginTop: 20, fontFamily: "AMIBios" }}
-                onClick={() =>{!isSent? sendmessage():alert("Message Sent")}}
+                onClick={() => {
+                  !isSent ? sendmessage() : alert("Message Sent");
+                }}
                 type="button"
-                disabled={!isSent?false:true}
+                disabled={!isSent ? false : true}
               >
                 Send message!
               </button>

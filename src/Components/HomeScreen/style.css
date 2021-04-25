@@ -399,6 +399,17 @@ input[type=radio]:not(old):checked + label > span:before {
   position: relative;
   bottom: 230px;
 }
+.window-success {
+  margin: 20px auto;
+  background: #c0c0c0;
+  /* background-image: url('../../assets/images/tick.png'); */
+  background-repeat: no-repeat;
+  background-size: 60px;
+  background-position: 15px 55px;
+  display: inline-block;
+  position: relative;
+  bottom: 230px;
+}
 .window-body-power {
   /* padding: 18px 90px 20px 100px; */
   font-size: 14px;

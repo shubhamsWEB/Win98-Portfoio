@@ -14,9 +14,13 @@ import LinkedInImg from "../../assets/images/linkedin.png";
 import ExplorerImg from "../../assets/images/explorer.png";
 import TwitterImg from "../../assets/images/twitter.png";
 import SudokuImg from "../../assets/images/sudokuicon.webp";
+import MarioImg from "../../assets/images/mario.png";
 import MessageImg from "../../assets/images/message.png";
-import StartupAudio from "../../assets/sounds/WinStartup.mp3";
-import ReactAudioPlayer from "react-audio-player";
+import CalanderImg from "../../assets/images/calendar.png";
+import SuccessWindow from "../WindowScreen/successWindow";
+import FailedWindow from "../WindowScreen/failedWindow";
+import MiniGameWindow from "../WindowScreen/miniGameWindow";
+import CalanderWindow from "../WindowScreen/calendarWindow";
 import BootScreen from "../BiosBoot";
 import { motion } from "framer-motion";
 
@@ -25,6 +29,10 @@ function HomeScreenComponent() {
   const [showWindow, setWindow] = React.useState(false);
   const [showWorkWindow, setWorkWindow] = React.useState(false);
   const [showMessageWindow, setMessageWindow] = React.useState(false);
+  const [showMiniGameWindow, setMiniGameWindow] = React.useState(false);
+  const [showCalendarWindow, setCalendarWindow] = React.useState(false);
+  const [emailSent, setEmail] = React.useState(false);
+  const [emailSentError, setEmailError] = React.useState(false);
   const [showPowerWindow, setPowerWindow] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [iframeUrl, setUrl] = React.useState("");
@@ -36,6 +44,12 @@ function HomeScreenComponent() {
   };
   const openMessageForm = () => {
     setMessageWindow(!showMessageWindow);
+  };
+  const openMiniGame = () => {
+    setMiniGameWindow(!showMiniGameWindow);
+  };
+  const openCalendar = () => {
+    setCalendarWindow(!showCalendarWindow);
   };
   const openAboutPage = () => {
     setUrl("https://shubham-agrawal.netlify.app/#/about");
@@ -69,7 +83,6 @@ function HomeScreenComponent() {
   const openTwitterPage = () => {
     window.open("https://twitter.com/devShubham_17", "_blank");
   };
-  
 
   React.useEffect(() => {
     window.addEventListener("load", () => {
@@ -82,7 +95,9 @@ function HomeScreenComponent() {
   return (
     <>
       {isLoading ? (
-        <div className="loading-screen"><BootScreen /> </div>
+        <div className="loading-screen">
+          <BootScreen />{" "}
+        </div>
       ) : (
         <>
           <Overlay togglePower={togglePower} setPower={setPower} />
@@ -200,6 +215,30 @@ function HomeScreenComponent() {
                     onClick={openMessageForm}
                   />
                 </motion.div>
+                <motion.div
+                  drag
+                  dragConstraints={constraintsRef}
+                  dragMomentum={false}
+                >
+                  <DesktopIcon
+                    imgSrc={MarioImg}
+                    title="Super Mario"
+                    small="medium_icon"
+                    onClick={openMiniGame}
+                  />
+                </motion.div>
+                <motion.div
+                  drag
+                  dragConstraints={constraintsRef}
+                  dragMomentum={false}
+                >
+                  <DesktopIcon
+                    imgSrc={CalanderImg}
+                    title="Calendar"
+                    // small="medium_icon"
+                    onClick={openCalendar}
+                  />
+                </motion.div>
               </div>
               <Dock
                 togglePower={togglePower}
@@ -223,6 +262,15 @@ function HomeScreenComponent() {
                   ></iframe>
                 </WindowScreen>
               )}
+              {emailSent && (
+                <SuccessWindow setIsHidden={setEmail} isHidden={emailSent} />
+              )}
+              {emailSentError && (
+                <FailedWindow
+                  setIsHidden={setEmailError}
+                  isHidden={emailSentError}
+                />
+              )}
               {showWorkWindow && (
                 <WorkWindowScreen
                   setIsHidden={setWorkWindow}
@@ -233,6 +281,8 @@ function HomeScreenComponent() {
                 <FormWindowScreen
                   setIsHidden={setMessageWindow}
                   isHidden={showMessageWindow}
+                  setError={setEmailError}
+                  setSuccess={setEmail}
                 />
               )}
               {showPowerWindow && (
@@ -243,6 +293,13 @@ function HomeScreenComponent() {
                   setPower={setPower}
                 />
               )}
+              {showMiniGameWindow && (
+                <MiniGameWindow
+                  isHidden={showMiniGameWindow}
+                  setIsHidden={setMiniGameWindow}
+                />
+              )}
+              {showCalendarWindow&&<CalanderWindow isHidden={showCalendarWindow} setIsHidden={setCalendarWindow}/>}
             </div>
           </motion.div>
         </>
