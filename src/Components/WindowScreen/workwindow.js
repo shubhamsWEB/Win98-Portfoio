@@ -1,12 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
-import AboutImg from "../../assets/images/users.png";
+// import AboutImg from "../../assets/images/users.png";
 import FolderImg from "../../assets/images/file.png";
-import ProjectImg from "../../assets/images/folder.png";
+// import ProjectImg from "../../assets/images/folder.png";
 import DesktopIcon from "../DesktopIcons";
 function WorkWindow({ isHidden, setIsHidden }) {
   const [maximize, setMaximize] = React.useState(false);
-  const workWindowRef = React.useRef(null);
+  // const workWindowRef = React.useRef(null);
 
   const maximizeWindow = () => {
     setMaximize(!maximize);

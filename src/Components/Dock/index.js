@@ -1,6 +1,5 @@
 import React,{ useState} from "react";
 import Clock from 'react-live-clock';
-import WinAudio from '../../assets/sounds/WinStartup.mp3';
 function Dock({togglePower, setPower,showPowerWindow, setPowerWindow}) {
 const [openStartMenu, setStartMenu] = useState(false);
 const openMenu = () => {

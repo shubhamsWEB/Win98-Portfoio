@@ -1,9 +1,7 @@
 import React from "react";
 import './style.css';
-import {Helmet} from "react-helmet";
 function Boot() {
   const BiosRef = React.useRef('');
-  const Win98Ref = React.useRef('');
   const[isBooting,setBooting] = React.useState(true);
   React.useEffect(() => {
     for(let i = 0; i < BiosRef.current.children.length; i++) {
@@ -43,10 +41,8 @@ function Boot() {
           </div>
           <div class="BIOS__bootMessage6">
             <p>
-              This Animation is Inspired by
-              <a href="https://github.com/padraigfl">Padraig Flood</a>
+              Detecting HDD Primary Master ...SDHEA453
             </p>
-            
           </div>
           <div class="BIOS__bootMessage7">
           <p>THIS SITE MAY NOT BE COMPATIABLE ON MOBILE PHONES</p>

@@ -180,8 +180,8 @@ class Row extends React.Component {
 
   counterIntervalFunction() {
     if (this.props.isRunning && this.props.direction === "ltr") {
-      var value = this.state.value < 2 ? this.state.value + 1 : 0;
-      this.setState({ value: value });
+      var value1 = this.state.value < 2 ? this.state.value + 1 : 0;
+      this.setState({ value: value1 });
       this.props.setRotatingValue(this.props.index, this.state.value);
     } else if (this.props.isRunning && this.props.direction === "rtl") {
       var value = this.state.value > 0 ? this.state.value - 1 : 2;

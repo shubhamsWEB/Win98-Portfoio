@@ -18,7 +18,7 @@ body {
   position: relative;
   overflow: hidden;
   margin: 0;
-  aspect-ratio: 16 / 9;
+  /* aspect-ratio: 16 / 9; */
 }
 .desktop.windowsXP,
 body.windowsXP {

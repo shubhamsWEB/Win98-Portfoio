@@ -1,10 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 function Powerwindow({ isHidden, setIsHidden,togglePower, setPower }) {
-  const [maximize, setMaximize] = React.useState(false);
-  const maximizeWindow = () => {
-    setMaximize(!maximize);
-  };
+  // const [maximize, setMaximize] = React.useState(false);
+  // const maximizeWindow = () => {
+  //   setMaximize(!maximize);
+  // };
   const onClose = () => {
     setIsHidden(!isHidden);
   };

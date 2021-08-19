@@ -16,7 +16,7 @@ function WorkWindow({ isHidden, setIsHidden, setError, setSuccess }) {
     setIsHidden(!isHidden);
   };
   const sendmessage = () => {
-    if (nameRef.current.value != "" && emailRef.current.value != "") {
+    if (nameRef.current.value !== "" && emailRef.current.value !== "") {
       setSentStatus(!isSent);
       const templateParams = {
         from_name: nameRef.current.value,
