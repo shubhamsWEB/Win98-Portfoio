@@ -135,11 +135,17 @@
   .WindowsLaunch-screen {
     width:100vw;
     height: 100vh;
-    background-image: url('../../assets/images/windows98.jpeg');
+    background: url('../../assets/images/windows98.jpeg');
     background-repeat: no-repeat;
     background-size:cover;
     background-position: center;
     animation: fadeIn 2s ease-in-out;
+    @media screen and (max-width: 720px) {
+        background: url('../../assets/images/win98mobile.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+   }
   }
   @keyframes fadeIn {
     0% {

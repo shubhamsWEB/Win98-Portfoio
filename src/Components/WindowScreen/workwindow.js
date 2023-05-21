@@ -32,7 +32,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
             <button aria-label="Close" onClick={onClose}></button>
           </div>
         </div>
-        <div class="status-bar">
+        <div className="status-bar">
           <ul className="status-bar-custom" style={{ listStyleType: "none" }}>
             <li>File</li>
             <li>Edit</li>
@@ -45,7 +45,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
         <div className={`window-body-custom ${maximize ? "full" : ""}`}>
           <div className="work-window-container">
             <div className="flex1">
-              <ul class="tree-view" style={{ height: "100%" }}>
+              <ul className="tree-view" style={{ height: "100%" }}>
                 <li>Table of Contents</li>
                 <li>What is web development?</li>
                 <li>

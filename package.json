@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "98.css": "^0.1.17",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "98.css": "^0.1.17",
     "emailjs-com": "^2.6.4",
     "framer-motion": "^4.1.5",
     "moment": "^2.29.1",
@@ -19,6 +19,7 @@
     "react-live-clock": "^5.1.0",
     "react-moment": "^1.1.1",
     "react-scripts": "4.0.3",
+    "sass": "^1.62.1",
     "web-vitals": "^1.1.1"
   },
   "scripts": {

@@ -1,22 +1,13 @@
 import React from "react";
 import Dock from "../Dock";
 import DesktopIcon from "../DesktopIcons";
+// const Dock = lazy(() => import('../Dock'));
 import WindowScreen from "../WindowScreen";
 import PowerWindowScreen from "../WindowScreen/powerwindow";
 import WorkWindowScreen from "../WindowScreen/workwindow";
 import FormWindowScreen from "../WindowScreen/messageFormWindow";
 import Overlay from "../Overlay";
-import AboutImg from "../../assets/images/users.png";
-import HomeImg from "../../assets/images/computer.png";
-import ProjectImg from "../../assets/images/folder.png";
-import GithubImg from "../../assets/images/github.png";
-import LinkedInImg from "../../assets/images/linkedin.png";
-import ExplorerImg from "../../assets/images/explorer.png";
-import TwitterImg from "../../assets/images/twitter.png";
-import SudokuImg from "../../assets/images/sudokuicon.webp";
-import MarioImg from "../../assets/images/mario.png";
-import MessageImg from "../../assets/images/message.png";
-import CalanderImg from "../../assets/images/calendar.png";
+
 import SuccessWindow from "../WindowScreen/successWindow";
 import FailedWindow from "../WindowScreen/failedWindow";
 import MiniGameWindow from "../WindowScreen/miniGameWindow";
@@ -25,6 +16,18 @@ import BootScreen from "../BiosBoot";
 import { motion } from "framer-motion";
 
 import "./style.css";
+const AboutImg = require("../../assets/images/users.png").default;
+const HomeImg = require("../../assets/images/computer.png").default;
+const ProjectImg = require("../../assets/images/folder.png").default;
+const GithubImg = require("../../assets/images/github.png").default;
+const LinkedInImg = require("../../assets/images/linkedin.png").default;
+const ExplorerImg = require("../../assets/images/explorer.png").default;
+const TwitterImg = require("../../assets/images/twitter.png").default;
+const SudokuImg = require("../../assets/images/sudokuicon.webp").default;
+const MarioImg = require("../../assets/images/mario.png").default;
+const MessageImg = require("../../assets/images/message.png").default;
+const CalanderImg = require("../../assets/images/calendar.png").default;
+const BlogImg = require("../../assets/images/blog.png").default;
 function HomeScreenComponent() {
   const [showWindow, setWindow] = React.useState(false);
   const [showWorkWindow, setWorkWindow] = React.useState(false);
@@ -56,6 +59,9 @@ function HomeScreenComponent() {
     setWindowTitle("About Shubham Agrawal");
     setWindow(true);
   };
+  const openBlogPage = () => {
+    window.open('https://shubhamsweb.hashnode.dev/', '_blank');
+  };
   const openHomePage = () => {
     setUrl("https://shubham-agrawal.netlify.app/");
     setWindowTitle("Its Me Shubham Agrawal");
@@ -85,11 +91,9 @@ function HomeScreenComponent() {
   };
 
   React.useEffect(() => {
-    window.addEventListener("load", () => {
-      setTimeout(function () {
-        setIsLoading(false);
-      }, 12000);
-    });
+    setTimeout(function () {
+      setIsLoading(false);
+    }, 12000);
   });
 
   return (
@@ -131,6 +135,17 @@ function HomeScreenComponent() {
                     imgSrc={AboutImg}
                     title="About Me"
                     onClick={openAboutPage}
+                  />
+                </motion.div>
+                <motion.div
+                  drag
+                  dragConstraints={constraintsRef}
+                  dragMomentum={false}
+                >
+                  <DesktopIcon
+                    imgSrc={BlogImg}
+                    title="Blogs"
+                    onClick={openBlogPage}
                   />
                 </motion.div>
                 <motion.div

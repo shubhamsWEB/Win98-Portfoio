@@ -8,6 +8,8 @@ function Icons({imgSrc,title,onClick,...rest}) {
         alt=""
         draggable={false}
         className={`${rest.small}`}
+        width='48px'
+        height='48px'
       />
       <p>{title}</p>
     </div>

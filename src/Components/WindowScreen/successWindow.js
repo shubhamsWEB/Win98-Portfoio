@@ -11,13 +11,13 @@ function Powerwindow({ isHidden, setIsHidden,togglePower, setPower }) {
   };
   return (
     <motion.div drag dragMomentum={false}>
-      <div class="window-container-power">
-        <div class="window-success">
-          <div class="window-title">
+      <div className="window-container-power">
+        <div className="window-success">
+          <div className="window-title">
             Email Sent Successfully!
-            <div class="btn-close close" onClick={onClose}>X</div>
+            <div className="btn-close close" onClick={onClose}>X</div>
           </div>
-          <div class="window-body">
+          <div className="window-body">
             <fieldset
               style={{ width: "250px" }}
             >
@@ -26,9 +26,9 @@ function Powerwindow({ isHidden, setIsHidden,togglePower, setPower }) {
               
             </fieldset>
           </div>
-          <div class="window-button-row">
-          <button class="btn ok" onClick={() => onClose()}>OK</button>
-          <button class="btn cancel" onClick={onClose}>Cancel</button>
+          <div className="window-button-row">
+          <button className="btn ok" onClick={() => onClose()}>OK</button>
+          <button className="btn cancel" onClick={onClose}>Cancel</button>
           </div>
         </div>
       </div>

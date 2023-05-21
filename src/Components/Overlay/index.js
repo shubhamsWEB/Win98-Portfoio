@@ -14,7 +14,7 @@ function Overlay({togglePower, setPower}) {
           width="100px"
           height="100px"
           viewBox="0 0 100 100"
-          enable-background="new 0 0 100 100"
+          enableBackground="new 0 0 100 100"
         >
           <g>
             <path

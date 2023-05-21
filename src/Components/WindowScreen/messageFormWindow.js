@@ -32,7 +32,6 @@ function WorkWindow({ isHidden, setIsHidden, setError, setSuccess }) {
         )
         .then(
           function (response) {
-            console.log("SUCCESS!", response.status, response.text);
             nameRef.current.value = "";
             emailRef.current.value = "";
             messageRef.current.value = "";
@@ -44,6 +43,8 @@ function WorkWindow({ isHidden, setIsHidden, setError, setSuccess }) {
           function (err) {
             setSentStatus(false);
             setError(true);
+            new Audio(BeepSound).play();
+            onClose();
             console.log("ERROR!", err);
           }
         );
@@ -81,19 +82,19 @@ function WorkWindow({ isHidden, setIsHidden, setError, setSuccess }) {
               <h4 style={{ fontFamily: "AMIBios" }}>
                 Always happy to hear from you. :)
               </h4>
-              <div class="field-row-stacked" style={{ width: "200px" }}>
+              <div className="field-row-stacked" style={{ width: "200px" }}>
                 <label for="text18" style={{ fontFamily: "AMIBios" }}>
                   Your Name
                 </label>
                 <input id="text18" type="text" ref={nameRef} />
               </div>
-              <div class="field-row-stacked" style={{ width: "200px" }}>
+              <div className="field-row-stacked" style={{ width: "200px" }}>
                 <label for="text19" style={{ fontFamily: "AMIBios" }}>
                   Your Email
                 </label>
                 <input id="text19" type="text" ref={emailRef} />
               </div>
-              <div class="field-row-stacked" style={{ width: "400px" }}>
+              <div className="field-row-stacked" style={{ width: "400px" }}>
                 <label for="text20" style={{ fontFamily: "AMIBios" }}>
                   Your Message!
                 </label>
