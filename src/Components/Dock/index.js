@@ -25,11 +25,10 @@ const onPowerClick = () => {
         <ul>
           <li className="windows-update">My Works</li>
           <hr />
-          <li className="covid19">Covid Tracker</li>
+          <li className="ringcustomizer">3D Ring Customizer</li>
+          <li className="redbull">3D Web Site</li>
           <li className="crickboard">CrickBoard</li>
-          <li className="ewallet">E-Wallet</li>
           <li className="npm">NPM Package</li>
-          <li className="inventory">Inventory System</li>
           <li className="sudoku">Sudoku App</li>
           <li className="samvid20">Samvid 2020</li>
           <li className="samvid">Samvid 2019</li>

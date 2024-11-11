@@ -93,18 +93,18 @@ function WorkWindow({ isHidden, setIsHidden }) {
             <motion.div className="project-icon">
                 <DesktopIcon
                   imgSrc={FolderImg}
-                  title="Covid Tracker"
+                  title="3D Ring Customizer"
                   onClick={() => {
-                    window.open("http://covid19.shubhamsweb.in/#/", "_blank");
+                    window.open("https://ring-customizer.vercel.app/", "_blank");
                   }}
                 />
               </motion.div >
               <motion.div className="project-icon">
                 <DesktopIcon
                   imgSrc={FolderImg}
-                  title="CrickBoard"
+                  title="3D Web Site"
                   onClick={() => {
-                    window.open("https://crickboard.herokuapp.com/", "_blank");
+                    window.open("https://redbull3d.vercel.app/", "_blank");
                   }}
                 />
               </motion.div>
@@ -113,11 +113,11 @@ function WorkWindow({ isHidden, setIsHidden }) {
                   imgSrc={FolderImg}
                   title="Sudoku App"
                   onClick={() => {
-                    window.open("http://sudoku.shubhamsweb.in/", "_blank");
+                    window.open("https://thirsty-sammet-d9cce0.netlify.app/", "_blank");
                   }}
                 />
               </motion.div>
-              <motion.div className="project-icon">
+              {/* <motion.div className="project-icon">
                 <DesktopIcon
                   imgSrc={FolderImg}
                   title="Inventory System"
@@ -134,7 +134,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
                     window.open("http://wallet.shubhamsweb.in/", "_blank");
                   }}
                 />
-              </motion.div>
+              </motion.div> */}
               <motion.div className="project-icon">
                 <DesktopIcon
                   imgSrc={FolderImg}

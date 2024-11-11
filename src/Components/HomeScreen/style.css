@@ -126,11 +126,11 @@ body.windowsXP {
   background-position: 48px center;
   background-size: 33px;
 }
-.start-menu ul li.covid19 {
-  background-image: url("../../assets/images/covid19.png");
+.start-menu ul li.ringcustomizer {
+  background-image: url("../../assets/images/ringcustomizer.png");
 }
-.start-menu ul li.ewallet {
-  background-image: url("../../assets/images/Ewallet.png");
+.start-menu ul li.redbull {
+  background-image: url("../../assets/images/redbull.png");
 }
 .start-menu ul li.crickboard {
   background-image: url("../../assets/images/crickboard.png");
