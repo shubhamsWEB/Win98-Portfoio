@@ -117,6 +117,15 @@ function WorkWindow({ isHidden, setIsHidden }) {
                   }}
                 />
               </motion.div>
+              <motion.div className="project-icon">
+                <DesktopIcon
+                  imgSrc={FolderImg}
+                  title="Banking DAPP(Blockchain)"
+                  onClick={() => {
+                    window.open("https://phenomenal-selkie-3483d5.netlify.app/", "_blank");
+                  }}
+                />
+              </motion.div >
               {/* <motion.div className="project-icon">
                 <DesktopIcon
                   imgSrc={FolderImg}
