@@ -2,14 +2,22 @@ import React from "react";
 import { motion } from "framer-motion";
 import MiniGame from "../MiniGame/SlotMachine";
 import MinecraftImg from "../../assets/images/minecraft.jpeg";
-function WorkWindow({ isHidden, setIsHidden, setError, setSuccess }) {
+
+function WorkWindow({ isHidden, setIsHidden, onClose: onCloseProp }) {
   const [maximize, setMaximize] = React.useState(false);
 
   const maximizeWindow = () => {
     setMaximize(!maximize);
   };
   const onClose = () => {
-    setIsHidden(!isHidden);
+    if (onCloseProp) {
+      onCloseProp();
+    } else {
+      setIsHidden(!isHidden);
+    }
+  };
+  const onMinimize = () => {
+    setIsHidden(false);
   };
   return (
     <motion.div drag dragMomentum={false}>
@@ -21,7 +29,7 @@ function WorkWindow({ isHidden, setIsHidden, setError, setSuccess }) {
         <div className="title-bar">
           <div className="title-bar-text">Mini Merio Slotes</div>
           <div className="title-bar-controls">
-            <button aria-label="Minimize"></button>
+            <button aria-label="Minimize" onClick={onMinimize}></button>
             <button
               aria-label={`${maximize ? "Restore" : "Maximize"}`}
               onClick={maximizeWindow}

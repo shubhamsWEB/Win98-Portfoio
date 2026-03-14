@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import FolderImg from "../../assets/images/file.png";
 // import ProjectImg from "../../assets/images/folder.png";
 import DesktopIcon from "../DesktopIcons";
-function WorkWindow({ isHidden, setIsHidden }) {
+
+function WorkWindow({ isHidden, setIsHidden, onClose: onCloseProp }) {
   const [maximize, setMaximize] = React.useState(false);
   // const workWindowRef = React.useRef(null);
 
@@ -12,7 +13,14 @@ function WorkWindow({ isHidden, setIsHidden }) {
     setMaximize(!maximize);
   };
   const onClose = () => {
-    setIsHidden(!isHidden);
+    if (onCloseProp) {
+      onCloseProp();
+    } else {
+      setIsHidden(!isHidden);
+    }
+  };
+  const onMinimize = () => {
+    setIsHidden(false);
   };
   return (
     <motion.div drag dragMomentum={false}>
@@ -24,7 +32,7 @@ function WorkWindow({ isHidden, setIsHidden }) {
         <div className="title-bar">
           <div className="title-bar-text">Some of My Recent Projects</div>
           <div className="title-bar-controls">
-            <button aria-label="Minimize"></button>
+            <button aria-label="Minimize" onClick={onMinimize}></button>
             <button
               aria-label={`${maximize ? "Restore" : "Maximize"}`}
               onClick={maximizeWindow}

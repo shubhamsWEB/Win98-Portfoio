@@ -41,22 +41,71 @@ function HomeScreenComponent() {
   const [iframeUrl, setUrl] = React.useState("");
   const [togglePower, setPower] = React.useState(false);
   const [windowTitle, setWindowTitle] = React.useState("");
+  const [dockTasks, setDockTasks] = React.useState([]);
   const constraintsRef = React.useRef(null);
+
+  const registerTask = (id, title) => {
+    setDockTasks((prev) => {
+      if (prev.some((task) => task.id === id)) {
+        return prev;
+      }
+      return [...prev, { id, title }];
+    });
+  };
+
+  const handleTaskClick = (id) => {
+    switch (id) {
+      case "main":
+        setWindow((prev) => !prev);
+        break;
+      case "projects":
+        setWorkWindow((prev) => !prev);
+        break;
+      case "message":
+        setMessageWindow((prev) => !prev);
+        break;
+      case "minigame":
+        setMiniGameWindow((prev) => !prev);
+        break;
+      case "calendar":
+        setCalendarWindow((prev) => !prev);
+        break;
+      default:
+        break;
+    }
+  };
+  const removeTask = (id) => {
+    setDockTasks((prev) => prev.filter((task) => task.id !== id));
+  };
+
   const openProjectsPage = () => {
+    if (!showWorkWindow) {
+      registerTask("projects", "My Projects");
+    }
     setWorkWindow(!showWorkWindow);
   };
   const openMessageForm = () => {
+    if (!showMessageWindow) {
+      registerTask("message", "Send a Message");
+    }
     setMessageWindow(!showMessageWindow);
   };
   const openMiniGame = () => {
+    if (!showMiniGameWindow) {
+      registerTask("minigame", "Mini Merio Slotes");
+    }
     setMiniGameWindow(!showMiniGameWindow);
   };
   const openCalendar = () => {
+    if (!showCalendarWindow) {
+      registerTask("calendar", "Calendar");
+    }
     setCalendarWindow(!showCalendarWindow);
   };
   const openAboutPage = () => {
     setUrl("https://shubham-agrawal.netlify.app/#/about");
     setWindowTitle("About Shubham Agrawal");
+    registerTask("main", "About Shubham Agrawal");
     setWindow(true);
   };
   const openBlogPage = () => {
@@ -65,16 +114,19 @@ function HomeScreenComponent() {
   const openHomePage = () => {
     setUrl("https://shubham-agrawal.netlify.app/");
     setWindowTitle("Its Me Shubham Agrawal");
+    registerTask("main", "Its Me Shubham Agrawal");
     setWindow(true);
   };
   const openChromePage = () => {
     setUrl("https://www.google.com/");
     setWindowTitle("Ah! Just open it on Google!! :/");
+    registerTask("main", "Ah! Just open it on Google!! :/");
     setWindow(true);
   };
   const openSudokuApp = () => {
     setUrl("https://thirsty-sammet-d9cce0.netlify.app/");
     setWindowTitle("Sudoku App");
+    registerTask("main", "Sudoku App");
     setWindow(true);
   };
   const openGithubPage = () => {
@@ -91,10 +143,14 @@ function HomeScreenComponent() {
   };
 
   React.useEffect(() => {
-    setTimeout(function () {
+    const timer = setTimeout(() => {
       setIsLoading(false);
     }, 12000);
-  });
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <>
@@ -260,6 +316,9 @@ function HomeScreenComponent() {
                 setPower={setPower}
                 setPowerWindow={setPowerWindow}
                 showPowerWindow={showPowerWindow}
+                onOpenWorkWindow={openProjectsPage}
+                tasks={dockTasks}
+                onTaskClick={handleTaskClick}
               />
               {showWindow && (
                 <WindowScreen
@@ -267,6 +326,10 @@ function HomeScreenComponent() {
                   isHidden={showWindow}
                   constraintsRef={constraintsRef}
                   title={windowTitle}
+                  onClose={() => {
+                    setWindow(false);
+                    removeTask("main");
+                  }}
                 >
                   <iframe
                     src={iframeUrl}
@@ -290,6 +353,10 @@ function HomeScreenComponent() {
                 <WorkWindowScreen
                   setIsHidden={setWorkWindow}
                   isHidden={showWorkWindow}
+                  onClose={() => {
+                    setWorkWindow(false);
+                    removeTask("projects");
+                  }}
                 />
               )}
               {showMessageWindow && (
@@ -298,6 +365,10 @@ function HomeScreenComponent() {
                   isHidden={showMessageWindow}
                   setError={setEmailError}
                   setSuccess={setEmail}
+                  onClose={() => {
+                    setMessageWindow(false);
+                    removeTask("message");
+                  }}
                 />
               )}
               {showPowerWindow && (
@@ -312,9 +383,22 @@ function HomeScreenComponent() {
                 <MiniGameWindow
                   isHidden={showMiniGameWindow}
                   setIsHidden={setMiniGameWindow}
+                  onClose={() => {
+                    setMiniGameWindow(false);
+                    removeTask("minigame");
+                  }}
                 />
               )}
-              {showCalendarWindow&&<CalanderWindow isHidden={showCalendarWindow} setIsHidden={setCalendarWindow}/>}
+              {showCalendarWindow && (
+                <CalanderWindow
+                  isHidden={showCalendarWindow}
+                  setIsHidden={setCalendarWindow}
+                  onClose={() => {
+                    setCalendarWindow(false);
+                    removeTask("calendar");
+                  }}
+                />
+              )}
             </div>
           </motion.div>
         </>

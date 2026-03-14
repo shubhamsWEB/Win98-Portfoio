@@ -27,23 +27,61 @@ body.windowsXP {
 }
 .dock {
   background: #c0c0c0;
-  height: 35px;
+  height: 32px;
   width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
-  border-top: 2px solid #efefef;
-  padding: 3px;
-  z-index: 1000;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  padding: 2px 4px;
+  z-index: 2000;
+}
+.dock-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.dock-tasks {
+  flex: 1;
+  margin: 0 4px;
+  height: 100%;
+  background: #c0c0c0;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 1px 2px;
+}
+.task-button {
+  margin-right: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  background-color: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  cursor: default;
+}
+.task-button:active {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
 }
 .dock-time {
-  border-top: 2px solid #666;
-  border-right: 2px solid white;
-  border-bottom: 2px solid white;
-  border-left: 2px solid #666;
-  float: right;
-  padding: 5px 15px 5px 35px;
-  font-size: 14px;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+  padding: 3px 10px 3px 26px;
+  font-size: 11px;
   background: url(https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Gnome-audio-volume-high.svg/120px-Gnome-audio-volume-high.svg.png);
   background-size: 20px;
   background-repeat: no-repeat;
@@ -52,31 +90,33 @@ body.windowsXP {
 .start-btn {
   display: inline-block;
   text-decoration: none;
-  color: black;
-  line-height: 25px;
+  color: #000;
+  line-height: 24px;
   font-weight: bold;
-  padding-left: 31px;
-  padding-right: 7px;
-  height: 29px;
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-size: 11px;
+  padding-left: 30px;
+  padding-right: 10px;
+  height: 26px;
   background-image: url("http://vignette4.wikia.nocookie.net/logopedia/images/b/b3/Windows_logo_(Pre-XP)_alt._color.svg.png/revision/latest?cb=20160311145452");
   background-repeat: no-repeat;
   background-size: 22px;
   background-position: 5px center;
   background-color: #c0c0c0;
-  border-top: 2px solid white;
-  border-right: 2px solid #222;
-  border-bottom: 2px solid #222;
-  border-left: 2px solid white;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
 }
 .start-btn.active {
-  border-top: 2px solid #222;
-  border-right: 2px solid white;
-  border-bottom: 2px solid white;
-  border-left: 2px solid #222;
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
 }
 .start-menu {
   position: absolute;
-  bottom: 35px;
+  bottom: 32px;
   left: 0;
   background: #c0c0c0;
   border-top: 2px solid white;
@@ -88,6 +128,7 @@ body.windowsXP {
   padding-bottom: 0px;
   font-size: 14px;
   display: none;
+  z-index: 3000;
 }
 .start-menu.open {
   display: block;
@@ -182,11 +223,12 @@ body.windowsXP {
   border-right: 2px solid #222;
   border-bottom: 2px solid #222;
   border-left: 2px solid white;
-  margin: 20px auto;
   background: #c0c0c0;
   display: block;
-  position: relative;
-  margin-top: -300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .window-custom.full {
   margin: 0 !important;
@@ -194,6 +236,8 @@ body.windowsXP {
   height: 100vh;
   position: absolute;
   top: 0;
+  left: 0;
+  transform: none;
 }
 .window-title {
   position: relative;
