@@ -41,3 +41,22 @@ test("windows always fit a small viewport", () => {
   const { x, y, w, h } = s.windows.a;
   assert.ok(x >= 0 && y >= 0 && x + w <= 320 && y + h <= 500);
 });
+
+test("show desktop hides everything, then restores exactly what it hid", () => {
+  let s = open(open(open(initialState, "a"), "b"), "c");
+  s = reducer(s, { type: "minimize", id: "a" });
+  s = reducer(s, { type: "showDesktop" });
+  assert.equal(focusedId(s), null);
+  s = reducer(s, { type: "showDesktop" });
+  assert.equal(s.windows.a.minimized, true);
+  assert.equal(s.windows.b.minimized, false);
+  assert.equal(focusedId(s), "c");
+});
+
+test("tile fills the viewport and bumps rev so native resizes are overwritten", () => {
+  let s = open(open(initialState, "a"), "b");
+  s = reducer(s, { type: "tile", viewport });
+  assert.equal(s.windows.a.w + s.windows.b.w, viewport.w);
+  assert.equal(s.windows.b.x, s.windows.a.w);
+  assert.equal(s.windows.a.rev, 1);
+});

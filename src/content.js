@@ -240,3 +240,41 @@ export const projects = [
     frame: true,
   },
 ];
+
+// Files visitors can open in Notepad or read from the MS-DOS Prompt.
+const resumeLines = [
+  profile.name.toUpperCase(),
+  profile.title,
+  "",
+  profile.summary,
+  "",
+  "EXPERIENCE",
+  ...experience.flatMap((job) => [
+    "",
+    `${job.company} - ${job.role} (${job.period})`,
+    ...job.points.map((p) => `  * ${p}`),
+  ]),
+  "",
+  "SKILLS",
+  ...skills.map(([k, v]) => `  ${k}: ${v}`),
+  "",
+  "EDUCATION",
+  ...education.map(([degree, school, year]) => `  ${degree}, ${school}, ${year}`),
+];
+
+export const documents = {
+  "README.TXT": [
+    "Welcome to Shubham 98.",
+    "",
+    "This is my portfolio, built to behave like the desktop I grew up with.",
+    "",
+    "  * Double-click desktop icons (tap on a phone).",
+    "  * Right-click the desktop, the taskbar and title bars.",
+    "  * Press Start, or Ctrl+Esc, for everything else.",
+    "  * Try the MS-DOS Prompt. Type HELP.",
+    "  * Turn on sound with the speaker in the corner.",
+    "",
+    "Looking for the serious part? Open My Projects or RESUME.TXT.",
+  ].join("\n"),
+  "RESUME.TXT": resumeLines.join("\n"),
+};
