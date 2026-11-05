@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 
 const KEY = "shubham98-settings";
-const defaults = { wallpaper: "teal", scheme: "standard", saver: "stars", saverMinutes: 2, sound: false, welcome: true };
+const defaults = { wallpaper: "teal", scheme: "standard", saver: "stars", saverMinutes: 2, sound: false, welcome: true, assistant: true, seenUpdates: [] };
 
 function load() {
   try {

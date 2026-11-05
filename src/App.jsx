@@ -9,6 +9,7 @@ import Taskbar from "./Taskbar.jsx";
 import Window from "./Window.jsx";
 import ShutDown, { OffScreen } from "./ShutDown.jsx";
 import Screensaver from "./ui/Screensaver.jsx";
+import Assistant from "./Assistant.jsx";
 
 const taskbarHeight = () => document.querySelector(".taskbar")?.offsetHeight ?? 32;
 const viewport = () => ({ w: innerWidth, h: innerHeight - taskbarHeight() });
@@ -118,6 +119,7 @@ export default function App() {
           restart();
         }}
       />
+      {phase === "desktop" && <Assistant openApp={openApp} windowOpen={Boolean(focused)} />}
       {phase === "desktop" && <Screensaver />}
       {phase === "standby" && (
         <button className="standby" aria-label="Wake up" autoFocus onClick={() => setPhase("desktop")} />
