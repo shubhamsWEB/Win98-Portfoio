@@ -1,25 +1,9 @@
 {
-  "short_name": "Shubham Agrawal",
-  "name": "Web|App Developer",
-  "icons": [
-    {
-      "src": "logo.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "logo.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
+  "short_name": "Shubham 98",
+  "name": "Shubham Agrawal | Software Engineer",
+  "icons": [{ "src": "logo.png", "type": "image/png", "sizes": "256x256" }],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#008080",
+  "background_color": "#008080"
 }
