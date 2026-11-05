@@ -8,7 +8,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test src/wm.test.js"
+    "test": "node --test src/wm.test.js src/logic.test.js"
   },
   "dependencies": {
     "98.css": "^0.1.21",

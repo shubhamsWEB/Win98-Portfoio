@@ -54,6 +54,7 @@ function General({ openApp }) {
         </dl>
         <p className="row">
           <button onClick={() => openApp("projects")}>My projects</button>
+          <button onClick={() => openApp("resume")}>View resume</button>
           <button onClick={() => openApp("contact")}>Send a message</button>
           <a href={links.github} target="_blank" rel="noreferrer">GitHub</a>
           <a href={links.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>

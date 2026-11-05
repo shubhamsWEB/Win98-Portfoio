@@ -1,7 +1,9 @@
 import { profile } from "../content.js";
 import { Flag } from "../Boot.jsx";
+import { setSettings, useSettings } from "../settings.js";
 
 export default function Welcome({ openApp, close }) {
+  const { welcome } = useSettings();
   const go = (id, props) => {
     openApp(id, props);
     close();
@@ -20,18 +22,23 @@ export default function Welcome({ openApp, close }) {
           <p>{profile.tagline}</p>
           <p>
             6+ years shipping production software. Currently a {profile.title.toLowerCase()} at Ford,
-            and the creator of Murmur and NexusCode.
+            and the creator of Murmur.
           </p>
         </div>
         <div className="welcome-actions">
           <button className="default" onClick={() => go("projects")}>See my projects</button>
-          <button onClick={() => go("about", { tab: "Experience" })}>View experience</button>
+          <button onClick={() => go("resume")}>View my resume</button>
           <button onClick={() => go("contact")}>Get in touch</button>
+          <button onClick={close}>Explore the desktop</button>
         </div>
       </div>
       <p className="welcome-tip">
-        <b>Tip:</b> this works like the real thing. Open icons, move windows, press Start.
+        <b>Did you know?</b> This works like the real thing. Right-click things, press Start, or type HELP in the MS-DOS Prompt.
       </p>
+      <div className="field-row welcome-check">
+        <input id="welcome-show" type="checkbox" checked={welcome} onChange={(e) => setSettings({ welcome: e.target.checked })} />
+        <label htmlFor="welcome-show">Show this screen each time Shubham 98 starts</label>
+      </div>
     </div>
   );
 }

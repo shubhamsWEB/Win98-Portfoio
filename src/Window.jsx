@@ -1,4 +1,6 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { titleOf } from "./apps.jsx";
+import { Popup } from "./ui/Menu.jsx";
 
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -60,6 +62,32 @@ export default function Window({ win, app, z, active, dispatch, children }) {
     }
   }, [maximized]);
 
+  // Cascade and Tile: animate there and overwrite any native resize.
+  const lastRev = useRef(win.rev);
+  useLayoutEffect(() => {
+    if (win.rev === lastRev.current) return;
+    lastRev.current = win.rev;
+    const el = ref.current;
+    const from = el.getBoundingClientRect();
+    Object.assign(el.style, {
+      left: `${win.x}px`,
+      top: `${win.y}px`,
+      width: `${win.w}px`,
+      height: `${win.h}px`,
+    });
+    morph(el, from, "from", 150);
+  }, [win.rev, win.x, win.y, win.w, win.h]);
+
+  const [sysMenu, setSysMenu] = useState(null);
+  const canResize = app.resizable !== false;
+  const sysItems = [
+    { label: "Restore", disabled: !maximized, onClick: () => toggleMax() },
+    { label: "Minimize", onClick: () => dispatch({ type: "minimize", id }) },
+    { label: "Maximize", disabled: maximized || !canResize, onClick: () => toggleMax() },
+    { separator: true },
+    { label: "Close", onClick: () => close() },
+  ];
+
   const toggleMax = () => {
     rectBeforeMax.current = ref.current.getBoundingClientRect();
     dispatch({ type: "maximize", id });
@@ -67,6 +95,7 @@ export default function Window({ win, app, z, active, dispatch, children }) {
 
   const close = async () => {
     const el = ref.current;
+    if (!el) return;
     await morph(el, inset(el.getBoundingClientRect(), 0.03), "fade", 110);
     dispatch({ type: "close", id });
   };
@@ -127,13 +156,29 @@ export default function Window({ win, app, z, active, dispatch, children }) {
       <div
         className={`title-bar ${active ? "" : "inactive"}`}
         onPointerDown={startDrag}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setSysMenu({ x: e.clientX, y: e.clientY });
+        }}
         onDoubleClick={(e) => {
           if (app.resizable !== false && !e.target.closest("button")) toggleMax();
         }}
       >
         <div className="title-bar-text" id={titleId}>
-          <img src={app.icon} alt="" width="16" height="16" />
-          {app.title}
+          <button
+            type="button"
+            className="sys-btn"
+            aria-label="Window menu"
+            data-menu-trigger
+            onClick={(e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              setSysMenu(sysMenu ? null : { x: r.left, y: r.bottom });
+            }}
+            onDoubleClick={close}
+          >
+            <img src={app.icon} alt="" width="16" height="16" />
+          </button>
+          <span className="title-text">{titleOf(win)}</span>
         </div>
         <div className="title-bar-controls">
           <button aria-label="Minimize" onClick={() => dispatch({ type: "minimize", id })} />
@@ -144,6 +189,7 @@ export default function Window({ win, app, z, active, dispatch, children }) {
         </div>
       </div>
       <div className="win-body">{children}</div>
+      {sysMenu && <Popup items={sysItems} anchor={sysMenu} onClose={() => setSysMenu(null)} ariaLabel="Window menu" />}
     </section>
   );
 }
