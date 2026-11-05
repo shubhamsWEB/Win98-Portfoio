@@ -38,6 +38,8 @@ export default function Assistant({ openApp, windowOpen }) {
   const [menu, openMenu] = useContextMenu();
   const windowOpenRef = useRef(windowOpen);
   windowOpenRef.current = windowOpen;
+  const viewRef = useRef(view);
+  viewRef.current = view;
 
   const showNews = useCallback((index) => {
     setNewsIndex(index);
@@ -59,10 +61,12 @@ export default function Assistant({ openApp, windowOpen }) {
     const timer = setTimeout(() => {
       // A window fills a phone screen, so news waits behind the tray dot instead of covering it.
       if (windowOpenRef.current && matchMedia("(max-width: 720px)").matches) return;
+      // Never interrupt someone already using Floppy. The tray dot still shows unread news.
+      if (viewRef.current) return;
       const unseen = NEWS.findIndex((u) => !getSettings().seenUpdates.includes(u.id));
       play("on");
       if (unseen >= 0) showNews(unseen);
-      else setView((v) => v ?? "greet");
+      else setView("greet");
     }, 4000);
     return () => clearTimeout(timer);
   }, [assistant, showNews]);
