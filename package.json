@@ -1,50 +1,23 @@
 {
   "name": "portfolio-win98",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@testing-library/jest-dom": "^5.11.10",
-    "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^12.8.3",
-    "98.css": "^0.1.17",
-    "emailjs-com": "^2.6.4",
-    "framer-motion": "^4.1.5",
-    "moment": "^2.29.1",
-    "moment-timezone": "^0.5.33",
-    "react": "^17.0.2",
-    "react-audio-player": "^0.17.0",
-    "react-big-calendar": "^0.33.2",
-    "react-dom": "^17.0.2",
-    "react-helmet": "^6.1.0",
-    "react-live-clock": "^5.1.0",
-    "react-moment": "^1.1.1",
-    "react-scripts": "4.0.3",
-    "sass": "^1.62.1",
-    "web-vitals": "^1.1.1"
-  },
+  "type": "module",
   "scripts": {
-    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test src/wm.test.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "98.css": "^0.1.21",
+    "emailjs-com": "^3.2.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.2.1",
+    "vite": "^8.3.5"
   }
 }
