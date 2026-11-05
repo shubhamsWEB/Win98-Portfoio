@@ -263,6 +263,7 @@ export const documents = {
     "  * Press Start, or Ctrl+Esc, for everything else.",
     "  * Try the MS-DOS Prompt. Type HELP.",
     "  * Turn on sound with the speaker in the corner.",
+    "  * Ask Floppy, the AI assistant in the corner, anything about my work.",
     "",
     "Looking for the serious part? Open My Projects or RESUME.TXT.",
   ].join("\n"),

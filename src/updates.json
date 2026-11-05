@@ -1,0 +1,17 @@
+[
+  {
+    "id": "murmur-1-5-1",
+    "date": "2026-11-04",
+    "source": "Project",
+    "title": "Murmur 1.5.1 is out",
+    "text": "The latest Murmur release is available for Mac and Windows. Murmur is my free voice assistant: hold a key, speak, and it types in any app.",
+    "url": "https://github.com/shubhamsWEB/murmur-app/releases/tag/v1.5.1"
+  },
+  {
+    "id": "portfolio-98-rebuild",
+    "date": "2026-11-05",
+    "source": "Site",
+    "title": "This portfolio got a full rebuild",
+    "text": "New programs, right-click menus, a resume you can download, and me. Try the MS-DOS Prompt, or ask me a question."
+  }
+]

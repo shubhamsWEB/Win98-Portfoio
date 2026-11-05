@@ -6,6 +6,8 @@ import { icons } from "./icons.js";
 import { setSettings, useSettings } from "./settings.js";
 import { play } from "./sound.js";
 import { MenuList, useContextMenu, useDismiss } from "./ui/Menu.jsx";
+import { FloppyArt } from "./Assistant.jsx";
+import { newestFirst, openFloppy } from "./assistant.js";
 
 const external = (url) => () => window.open(url, "_blank", "noopener");
 const liveOf = (id) => projects.find((p) => p.id === id).live;
@@ -36,6 +38,7 @@ export default function Taskbar({ wm, focused, dispatch, openApp, viewport, onSh
     app("projects", "My Projects"),
     app("about", "About Me", { tab: "General" }),
     app("resume", "My Resume"),
+    { label: "Ask Floppy", icon: icons.help, onClick: openFloppy },
     app("contact", "Send a Message"),
     { separator: true },
     {
@@ -157,11 +160,28 @@ export default function Taskbar({ wm, focused, dispatch, openApp, viewport, onSh
       </div>
 
       <div className="tray-box">
+        <FloppyTray />
         <SoundToggle />
         <Clock onClick={() => openApp("datetime")} />
       </div>
       {context}
     </footer>
+  );
+}
+
+function FloppyTray() {
+  const { seenUpdates } = useSettings();
+  const unseen = newestFirst().filter((u) => !seenUpdates.includes(u.id)).length;
+  return (
+    <button
+      className="speaker floppy-tray"
+      title={unseen ? `Ask Floppy (${unseen} new)` : "Ask Floppy"}
+      aria-label={unseen ? `Ask Floppy, ${unseen} new updates` : "Ask Floppy"}
+      onClick={openFloppy}
+    >
+      <FloppyArt size={16} />
+      {unseen > 0 && <span className="tray-dot" aria-hidden="true" />}
+    </button>
   );
 }
 

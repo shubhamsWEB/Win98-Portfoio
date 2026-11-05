@@ -33,6 +33,7 @@ const TOPICS = [
       "Draw something in Paint, then save it. Play Bug Hunt.",
       "Change the wallpaper in Display Properties. Your choice is remembered.",
       "Leave the desktop alone for a while and the screen saver starts.",
+      "Ask Floppy, in the bottom-right corner, anything about my work. Right-click Floppy for more options.",
     ],
   },
   {
