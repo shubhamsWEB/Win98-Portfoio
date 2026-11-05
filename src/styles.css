@@ -59,7 +59,7 @@ button:disabled { color: #808080; text-shadow: 1px 1px 0 #fff; }
 :root[data-wallpaper="night"], [data-wallpaper="night"] { --wall: radial-gradient(1px 1px at 20% 30%, #fff 50%, #0000), radial-gradient(1px 1px at 70% 60%, #fff 50%, #0000), radial-gradient(1px 1px at 40% 80%, #ddd 50%, #0000), radial-gradient(1px 1px at 85% 15%, #fff 50%, #0000), linear-gradient(#050a30, #1a2a6c); }
 .band { position: absolute; z-index: 0; border: 1px dotted #fff; outline: 1px dotted #000; outline-offset: -1px; pointer-events: none; }
 .watermark {
-  position: absolute; right: 100px; bottom: 20px; text-align: right; color: #fff; pointer-events: none; user-select: none;
+  position: absolute; right: 28px; bottom: 150px; text-align: right; color: #fff; pointer-events: none; user-select: none;
 }
 .watermark h1 { margin: 0; font: italic 700 clamp(22px, 4vw, 44px) Tahoma, Arial, sans-serif; letter-spacing: -1px; }
 .watermark p { margin: 0; font: 14px Tahoma, Arial, sans-serif; }
@@ -417,15 +417,94 @@ fieldset { margin-bottom: 12px; }
 /* Floppy */
 .floppy { position: fixed; right: 16px; bottom: calc(var(--taskbar) + 12px); z-index: 1500; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: none; max-width: calc(100vw - 16px); }
 .floppy > * { pointer-events: auto; }
-.floppy-char { min-width: 0; min-height: 0; padding: 0; background: none; box-shadow: none; animation: floppy-in .35s steps(5), floppy-bob 3s steps(4) .35s infinite; filter: drop-shadow(2px 3px 0 rgba(0, 0, 0, .35)); }
-.floppy-char:not(:disabled):active { box-shadow: none; }
+.floppy-char { display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 0; padding: 0; background: none; box-shadow: none; transition: transform .12s; }
+.floppy-char:not(:disabled):active { box-shadow: none; text-shadow: none; transform: scale(.94); }
+.floppy-char:hover { transform: translateY(-3px); }
+.floppy-char:focus { outline: none; }
 .floppy-char:focus-visible { outline: 1px dotted #fff; outline-offset: 2px; }
-.floppy-char svg { display: block; }
-.floppy-eyes { animation: floppy-blink 4.2s steps(1) infinite; transform-origin: center; }
-.floppy.tucked .floppy-char { opacity: .85; }
-@keyframes floppy-in { from { transform: translateY(40px); opacity: 0; } }
-@keyframes floppy-bob { 50% { transform: translateY(-4px); } }
-@keyframes floppy-blink { 0%, 92%, 100% { opacity: 1; } 94%, 98% { opacity: 0; } }
+.fd-hint { position: relative; padding: 5px 9px; background: #ffffe1; border: 1px solid #000; box-shadow: 2px 2px 0 rgba(0, 0, 0, .35); color: #111; font: 700 12px Tahoma, Arial, sans-serif; white-space: nowrap; animation: hint-in .25s steps(4), hint-nudge 5s steps(1) .3s; }
+.fd-hint::after { content: ""; position: absolute; right: -6px; top: 50%; width: 9px; height: 9px; margin-top: -5px; background: #ffffe1; border-top: 1px solid #000; border-right: 1px solid #000; transform: rotate(45deg); }
+@keyframes hint-in { from { transform: translateX(10px); opacity: 0; } }
+@keyframes hint-nudge { 40% { transform: translateX(-2px); } 44% { transform: translateX(2px); } 48% { transform: none; } }
+
+/* Floppy's body language. Stepped animation keeps the chunky retro feel. */
+.fd { position: relative; display: inline-block; flex: none; --look-x: 0px; --look-y: 0px; filter: drop-shadow(2px 3px 0 rgba(0, 0, 0, .35)); }
+.fd svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.fd svg * { transform-box: fill-box; }
+.fd-body { animation: fd-breathe 2.4s steps(3) infinite; transform-origin: 50% 100%; }
+.fd-pupil { transform: translate(var(--look-x), var(--look-y)); transition: transform .08s linear; }
+.fd-lid { transform: scaleY(0); transform-origin: 50% 0; animation: fd-blink 4.6s steps(1) infinite; }
+.fd-eye:nth-of-type(3) .fd-lid { animation-delay: .02s; }
+.fd-brow { transform-origin: center; transition: transform .15s; }
+.fd-mouth { opacity: 0; transform-origin: center; }
+.fd-arm-l { transform-origin: 100% 100%; }
+.fd-arm-r { transform-origin: 0% 100%; }
+.fd-leg { transform-origin: 50% 0; }
+@keyframes fd-breathe { 50% { transform: scaleY(.975); } }
+@keyframes fd-blink { 0%, 93%, 100% { transform: scaleY(0); } 95%, 98% { transform: scaleY(1); } }
+
+.fd-enter { animation: fd-enter .7s steps(7); }
+@keyframes fd-enter { from { transform: translate(110px, 30px) rotate(25deg); } 70% { transform: translate(-6px, 0) rotate(-6deg); } }
+.fd-enter .fd-arm-r, .fd-wave .fd-arm-r, .fd-happy .fd-arm-r { animation: fd-wave .4s steps(3) infinite alternate; }
+@keyframes fd-wave { from { transform: rotate(10deg); } to { transform: rotate(-65deg) translateY(-3px); } }
+.fd-wave .fd-brow-r, .fd-happy .fd-brow { transform: translateY(-1.5px); }
+
+.fd-hop { animation: fd-hop .8s steps(8) 2; }
+@keyframes fd-hop { 45% { transform: translateY(-16px) scaleY(1.04); } 90% { transform: translateY(0) scaleY(.9); } }
+.fd-hop .fd-arm-l { animation: fd-flap .4s steps(2) infinite alternate; }
+.fd-hop .fd-arm-r { animation: fd-wave .4s steps(2) infinite alternate; }
+@keyframes fd-flap { from { transform: rotate(-10deg); } to { transform: rotate(60deg) translateY(-3px); } }
+
+.fd-spin { animation: fd-spin 1.1s steps(10); }
+@keyframes fd-spin { 50% { transform: scaleX(.08); } 75% { transform: scaleX(-1); } 100% { transform: scaleX(1); } }
+
+.fd-look .fd-pupil { animation: fd-look 1.5s steps(1); }
+@keyframes fd-look { 0%, 30% { transform: translate(-1.7px, 0); } 31%, 65% { transform: translate(1.7px, 0); } 66%, 100% { transform: translate(0, -1.5px); } }
+.fd-look { animation: fd-tilt 1.5s steps(3); }
+@keyframes fd-tilt { 25% { transform: rotate(-5deg); } 60% { transform: rotate(5deg); } }
+
+.fd-tap .fd-leg-r { animation: fd-tap .3s steps(2) infinite alternate; }
+@keyframes fd-tap { to { transform: translateY(-2.500px) rotate(-14deg); } }
+
+.fd-peek { animation: fd-peek 1.5s steps(9); }
+@keyframes fd-peek { 35%, 65% { transform: translateX(-14px) rotate(-10deg); } }
+.fd-peek .fd-brow { transform: translateY(-1.5px); }
+
+.fd-think { animation: fd-sway 1.1s steps(4) infinite alternate; transform-origin: 50% 100%; }
+@keyframes fd-sway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+.fd-think .fd-pupil { animation: fd-roll 1.1s steps(4) infinite; }
+@keyframes fd-roll { 0% { transform: translate(-1.5px, -1.5px); } 50% { transform: translate(1.5px, -1.5px); } 100% { transform: translate(-1.5px, -1.5px); } }
+.fd-think .fd-arm-l { animation: fd-scratch .5s steps(2) infinite alternate; }
+@keyframes fd-scratch { from { transform: rotate(50deg); } to { transform: rotate(75deg); } }
+.fd-think .fd-brow-l { transform: translateY(-1.5px) rotate(-12deg); }
+.fd-idea { position: absolute; right: -4px; top: -6px; color: #fff; text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000; font: 700 16px Tahoma, Arial, sans-serif; animation: typing .7s steps(2) infinite; }
+
+.fd-talk .fd-smile { opacity: 0; }
+.fd-talk .fd-mouth { opacity: 1; animation: fd-talk .22s steps(2) infinite alternate; }
+@keyframes fd-talk { from { transform: scaleY(1); } to { transform: scaleY(.25); } }
+.fd-talk .fd-arm-r { animation: fd-flap-r .45s steps(2) infinite alternate; }
+@keyframes fd-flap-r { from { transform: rotate(5deg); } to { transform: rotate(-30deg); } }
+.fd-talk .fd-body { animation: fd-breathe .5s steps(2) infinite; }
+
+.fd-listen .fd-pupil { transform: translate(-1px, 1.6px); }
+.fd-listen .fd-brow { transform: translateY(-1px); }
+.fd-listen { animation: fd-nod .9s steps(3) infinite; transform-origin: 50% 100%; }
+@keyframes fd-nod { 50% { transform: rotate(3deg) translateY(1px); } }
+
+.fd-happy { animation: fd-hop .7s steps(7) 1; }
+
+.fd-sleep .fd-lid { animation: none; transform: scaleY(1); }
+.fd-sleep { animation: fd-snore 3s steps(4) infinite; transform-origin: 50% 100%; }
+@keyframes fd-snore { 50% { transform: rotate(-4deg) scaleY(.96); } }
+.fd-zzz { position: absolute; right: -2px; top: -14px; color: #fff; text-shadow: 1px 1px 0 #000; font: 700 15px Tahoma, Arial, sans-serif; animation: fd-float 2.4s steps(6) infinite; }
+.fd-zzz i { font-size: 11px; font-style: normal; }
+.fd-zzz b { font-size: 8px; }
+@keyframes fd-float { from { transform: translateY(6px); opacity: .2; } to { transform: translateY(-8px); opacity: 1; } }
+
+.chat-head { flex: none; display: flex; align-items: center; gap: 12px; padding: 8px 12px 6px; }
+.chat-head b { display: block; font: 700 14px Tahoma, Arial, sans-serif; color: #111; }
+.chat-head small { display: flex; align-items: center; gap: 5px; color: #333; font: 12px Tahoma, Arial, sans-serif; }
+.chat-online { width: 8px; height: 8px; background: #0a0; box-shadow: inset 0 0 0 1px #050; }
 .bubble { position: relative; width: 300px; max-width: calc(100vw - 32px); padding: 10px 12px; background: #ffffe1; border: 1px solid #000; box-shadow: 2px 2px 0 rgba(0, 0, 0, .35); font: var(--reading); color: #111; animation: bubble-pop .14s ease-out; transform-origin: bottom right; }
 .bubble::after { content: ""; position: absolute; right: 24px; bottom: -8px; width: 12px; height: 12px; background: #ffffe1; border-right: 1px solid #000; border-bottom: 1px solid #000; transform: skewX(35deg) rotate(45deg) scale(.8); }
 @keyframes bubble-pop { from { transform: scale(.85); opacity: 0; } }
@@ -433,7 +512,7 @@ fieldset { margin-bottom: 12px; }
 .bubble h3 { margin: 0 18px 4px 0; font: 700 14px Tahoma, Arial, sans-serif; }
 .bubble-close { position: absolute; right: 3px; top: 3px; z-index: 1; min-width: 0; min-height: 0; width: 18px; height: 18px; padding: 0; line-height: 14px; font-size: 13px; }
 .news-meta { display: block; margin-bottom: 2px; color: #555; font-size: 11px; }
-.chat-window { position: fixed; right: 12px; bottom: calc(var(--taskbar) + 8px); z-index: 1500; display: flex; flex-direction: column; width: 380px; height: min(520px, calc(100dvh - var(--taskbar) - 24px)); animation: bubble-pop .14s ease-out; transform-origin: bottom right; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff, 2px 3px 10px rgba(0, 0, 0, .3); }
+.chat-window { position: fixed; right: 12px; bottom: calc(var(--taskbar) + 8px); z-index: 1500; display: flex; flex-direction: column; width: 380px; height: min(580px, calc(100dvh - var(--taskbar) - 24px)); animation: bubble-pop .14s ease-out; transform-origin: bottom right; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff, 2px 3px 10px rgba(0, 0, 0, .3); }
 .chat-window .title-bar-text svg { flex: none; }
 .chat-log { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin: 3px 2px 0; padding: 12px; background: #fff; box-shadow: var(--sunken); font: var(--reading); color: #111; }
 .chat-empty { margin: auto 0; text-align: center; }
@@ -478,7 +557,8 @@ fieldset { margin-bottom: 12px; }
   .quick { display: none; }
   .floppy { right: 8px; }
   .floppy.tucked .floppy-char { display: none; }
-  .floppy-char svg { width: 48px; height: 48px; }
+  .floppy-char .fd { width: 72px !important; height: 79px !important; }
+  .fd-hint { font-size: 11px; }
   .chat-window { left: 0; right: 0; bottom: var(--taskbar); width: 100%; height: calc(100dvh - var(--taskbar)); }
   .chat-form input[type="text"] { height: 36px; font-size: 16px; }
   .chips-row button { min-height: 40px; }
@@ -513,4 +593,5 @@ fieldset { margin-bottom: 12px; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  .fd-pupil { transition: none; }
 }

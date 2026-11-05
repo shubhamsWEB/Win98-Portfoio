@@ -16,6 +16,8 @@ export const DAILY_LIMIT_TOTAL = 200;
 // Windows the assistant may offer to open. Anything else it writes is ignored.
 export const OPENABLE = ["projects", "about", "resume", "contact", "browser", "bughunt", "dos", "paint"];
 
+export const openFloppy = () => dispatchEvent(new Event("floppy-open"));
+
 export const newestFirst = (items = updates) =>
   [...items].sort((a, b) => b.date.localeCompare(a.date));
 

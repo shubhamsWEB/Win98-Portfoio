@@ -6,8 +6,8 @@ import { icons } from "./icons.js";
 import { setSettings, useSettings } from "./settings.js";
 import { play } from "./sound.js";
 import { MenuList, useContextMenu, useDismiss } from "./ui/Menu.jsx";
-import { FloppyArt, openFloppy } from "./Assistant.jsx";
-import { newestFirst } from "./assistant.js";
+import { FloppyArt } from "./Assistant.jsx";
+import { newestFirst, openFloppy } from "./assistant.js";
 
 const external = (url) => () => window.open(url, "_blank", "noopener");
 const liveOf = (id) => projects.find((p) => p.id === id).live;

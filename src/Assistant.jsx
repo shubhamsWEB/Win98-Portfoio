@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { apps } from "./apps.jsx";
 import { newestFirst, parseReply, splitLinks, MAX_USER_CHARS } from "./assistant.js";
+import FloppyCharacter from "./FloppyCharacter.jsx";
 import { profile } from "./content.js";
 import { getSettings, setSettings, useSettings } from "./settings.js";
 import { play } from "./sound.js";
@@ -10,9 +11,21 @@ const NEWS = newestFirst();
 const SUGGESTIONS = ["What has Shubham built?", "What's new lately?", "Why hire Shubham?"];
 const HISTORY_SENT = 10; // must stay at or under MAX_MESSAGES
 const OPEN_EVENT = "floppy-open";
-const ACTION_LABELS = { projects: "My Projects", about: "About Shubham", resume: "My Resume", contact: "New Message", browser: "Live Demos" };
+const HINTS = ["Ask me anything!", "Curious about Shubham?", "Psst... I'm an AI. Try me!"];
+const HINT_MS = 5000;
+const TIP_DELAY_MS = 1500;
+const TIP_GAP_MS = 45_000;
+const TIP_VISIBLE_MS = 10_000;
+const TIP_QUIET_START_MS = 6000; // leaves the first moments to the welcome window and any news
 
-export const openFloppy = () => dispatchEvent(new Event(OPEN_EVENT));
+// Clippy-style help, shown once per visit when someone opens a matching window.
+const TIPS = {
+  projects: { text: "Browsing the projects? I can point out the highlights.", ask: "Which projects should I look at first?" },
+  resume: { text: "Reading the resume? I can give you the short version.", ask: "Why hire Shubham?" },
+  about: { text: "Want a quick summary of Shubham's experience?", ask: "Summarize Shubham's experience." },
+  contact: { text: "Before you write, I can answer quick questions about Shubham.", ask: null },
+};
+const ACTION_LABELS = { projects: "My Projects", about: "About Shubham", resume: "My Resume", contact: "New Message", browser: "Live Demos" };
 
 const ERRORS = {
   429: "So many questions! Give me a minute to catch my breath.",
@@ -25,13 +38,21 @@ function markSeen(id) {
   if (!seenUpdates.includes(id)) setSettings({ seenUpdates: [...seenUpdates, id] });
 }
 
-export default function Assistant({ openApp, windowOpen }) {
-  const { assistant, seenUpdates } = useSettings();
+export default function Assistant({ openApp, focused }) {
+  const windowOpen = Boolean(focused);
+  const { assistant, seenUpdates, floppyUsed } = useSettings();
   const [view, setView] = useState(null); // null | greet | news | chat
   const [newsIndex, setNewsIndex] = useState(0);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [happy, setHappy] = useState(false);
+  const [tip, setTip] = useState(null);
+  const [hint, setHint] = useState(0);
+  const tipsShown = useRef(new Set());
+  const lastTipAt = useRef(0);
+  const mountedAt = useRef(Date.now());
+  const previousFocus = useRef(focused);
   const abort = useRef(null);
   const logRef = useRef(null);
   const inputRef = useRef(null);
@@ -76,6 +97,47 @@ export default function Assistant({ openApp, windowOpen }) {
     const timer = setTimeout(() => setView(null), 12000);
     return () => clearTimeout(timer);
   }, [view]);
+
+  // Offer help that matches what the visitor just opened. Never on first load or over the chat.
+  useEffect(() => {
+    if (focused === previousFocus.current) return;
+    previousFocus.current = focused;
+    const candidate = TIPS[focused];
+    if (!assistant || !candidate || tipsShown.current.has(focused)) return;
+    if (Date.now() - mountedAt.current < TIP_QUIET_START_MS) return;
+    if (Date.now() - lastTipAt.current < TIP_GAP_MS || matchMedia("(max-width: 720px)").matches) return;
+    const timer = setTimeout(() => {
+      if (viewRef.current) return;
+      tipsShown.current.add(focused);
+      lastTipAt.current = Date.now();
+      setTip(candidate);
+      setView("tip");
+    }, TIP_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [focused, assistant]);
+
+  useEffect(() => {
+    if (view !== "tip") return;
+    const timer = setTimeout(() => setView(null), TIP_VISIBLE_MS);
+    return () => clearTimeout(timer);
+  }, [view]);
+
+  // Keeps a visible invitation next to Floppy until the visitor has tried the chat once.
+  useEffect(() => {
+    if (floppyUsed) return;
+    const timer = setInterval(() => setHint((h) => (h + 1) % HINTS.length), HINT_MS);
+    return () => clearInterval(timer);
+  }, [floppyUsed]);
+
+  useEffect(() => {
+    if (view === "chat" && !floppyUsed) setSettings({ floppyUsed: true });
+  }, [view, floppyUsed]);
+
+  useEffect(() => {
+    if (!happy) return;
+    const timer = setTimeout(() => setHappy(false), 2000);
+    return () => clearTimeout(timer);
+  }, [happy]);
 
   useEffect(() => {
     const open = () => {
@@ -134,6 +196,7 @@ export default function Assistant({ openApp, windowOpen }) {
       if (err.name !== "AbortError") appendToLast("I couldn't connect. Please check your internet and try again.");
     } finally {
       setBusy(false);
+      setHappy(true);
     }
   };
 
@@ -157,6 +220,9 @@ export default function Assistant({ openApp, windowOpen }) {
   const item = NEWS[newsIndex];
 
   if (view === "chat") {
+    const lastReply = messages.at(-1)?.role === "assistant" ? parseReply(messages.at(-1).content).text : "";
+    const mood = busy ? (lastReply ? "talk" : "think") : input ? "listen" : happy ? "happy" : "idle";
+    const status = { think: "Thinking...", talk: "Answering...", listen: "Listening...", happy: "Happy to help!", idle: "Online. Ask me anything!" }[mood];
     return (
       <section className="window chat-window" role="dialog" aria-labelledby="chat-title">
         <div className="title-bar">
@@ -167,12 +233,18 @@ export default function Assistant({ openApp, windowOpen }) {
             <button aria-label="Close" onClick={close} />
           </div>
         </div>
+        <div className="chat-head">
+          <FloppyCharacter mood={mood} size={64} />
+          <div>
+            <b>Floppy</b>
+            <small><i className="chat-online" /> {status}</small>
+          </div>
+        </div>
         <div className="chat-log" ref={logRef} role="log" aria-live="polite">
           {messages.length === 0 ? (
             <div className="chat-empty">
-              <FloppyArt size={48} />
               <h3>Hi, I'm Floppy!</h3>
-              <p>Ask me anything about {profile.name}'s work.</p>
+              <p>I'm an AI helper. Ask me anything about {profile.name}'s work.</p>
               <div className="chips-row">
                 {SUGGESTIONS.map((s) => (
                   <button key={s} onClick={() => ask(s)}>{s}</button>
@@ -245,6 +317,24 @@ export default function Assistant({ openApp, windowOpen }) {
         <div className="bubble" role="status" aria-label="Floppy, the portfolio assistant">
           <button className="bubble-close" aria-label="Close" onClick={close}>×</button>
 
+          {view === "tip" && tip && (
+            <>
+              <p>{tip.text}</p>
+              <div className="row">
+                <button
+                  className="default"
+                  onClick={() => {
+                    setView("chat");
+                    if (tip.ask) ask(tip.ask);
+                  }}
+                >
+                  Yes, please
+                </button>
+                <button onClick={close}>No, thanks</button>
+              </div>
+            </>
+          )}
+
           {view === "greet" && (
             <>
               <p>Hi, I'm Floppy! It looks like you're checking out {profile.name}'s portfolio. Would you like help?</p>
@@ -276,12 +366,15 @@ export default function Assistant({ openApp, windowOpen }) {
 
       <button
         className="floppy-char"
-        aria-label="Floppy, the portfolio assistant. Click to chat"
-        title="Right-click for options"
+        aria-label="Ask Floppy, the AI assistant"
+        title="Click to chat. Right-click for options."
         onClick={() => setView("chat")}
         onContextMenu={(e) => openMenu(e, contextItems)}
       >
-        <FloppyArt />
+        {!floppyUsed && !view && (
+          <span className="fd-hint" key={hint} aria-hidden="true">{HINTS[hint]}</span>
+        )}
+        <FloppyCharacter mood={view === "news" || view === "greet" || view === "tip" ? "happy" : "idle"} />
       </button>
       {menu}
     </div>

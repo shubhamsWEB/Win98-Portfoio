@@ -119,7 +119,7 @@ export default function App() {
           restart();
         }}
       />
-      {phase === "desktop" && <Assistant openApp={openApp} windowOpen={Boolean(focused)} />}
+      {phase === "desktop" && <Assistant openApp={openApp} focused={focused} />}
       {phase === "desktop" && <Screensaver />}
       {phase === "standby" && (
         <button className="standby" aria-label="Wake up" autoFocus onClick={() => setPhase("desktop")} />
