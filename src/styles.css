@@ -422,14 +422,10 @@ fieldset { margin-bottom: 12px; }
 .floppy-char:focus-visible { outline: 1px dotted #fff; outline-offset: 2px; }
 .floppy-char svg { display: block; }
 .floppy-eyes { animation: floppy-blink 4.2s steps(1) infinite; transform-origin: center; }
-.floppy-char.thinking { animation: floppy-think .5s steps(4) infinite; }
-.floppy-char.thinking .floppy-eyes { animation: floppy-look .6s steps(2) infinite; }
 .floppy.tucked .floppy-char { opacity: .85; }
 @keyframes floppy-in { from { transform: translateY(40px); opacity: 0; } }
 @keyframes floppy-bob { 50% { transform: translateY(-4px); } }
 @keyframes floppy-blink { 0%, 92%, 100% { opacity: 1; } 94%, 98% { opacity: 0; } }
-@keyframes floppy-think { 25% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
-@keyframes floppy-look { 50% { transform: translateX(1px); } }
 .bubble { position: relative; width: 300px; max-width: calc(100vw - 32px); padding: 10px 12px; background: #ffffe1; border: 1px solid #000; box-shadow: 2px 2px 0 rgba(0, 0, 0, .35); font: var(--reading); color: #111; animation: bubble-pop .14s ease-out; transform-origin: bottom right; }
 .bubble::after { content: ""; position: absolute; right: 24px; bottom: -8px; width: 12px; height: 12px; background: #ffffe1; border-right: 1px solid #000; border-bottom: 1px solid #000; transform: skewX(35deg) rotate(45deg) scale(.8); }
 @keyframes bubble-pop { from { transform: scale(.85); opacity: 0; } }
@@ -437,21 +433,31 @@ fieldset { margin-bottom: 12px; }
 .bubble h3 { margin: 0 18px 4px 0; font: 700 14px Tahoma, Arial, sans-serif; }
 .bubble-close { position: absolute; right: 3px; top: 3px; z-index: 1; min-width: 0; min-height: 0; width: 18px; height: 18px; padding: 0; line-height: 14px; font-size: 13px; }
 .news-meta { display: block; margin-bottom: 2px; color: #555; font-size: 11px; }
-.bubble-chat { display: flex; flex-direction: column; width: 340px; height: min(440px, calc(100dvh - var(--taskbar) - 110px)); }
-.chat-log { flex: 1; min-height: 0; overflow-y: auto; padding-right: 2px; margin-top: 14px; }
-.chat-log p { margin: 0 0 8px; }
-.chat-msg { margin-bottom: 8px; padding: 5px 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
-.chat-msg.user { margin-left: 28px; background: var(--select, #000080); color: #fff; }
-.chat-msg.assistant { margin-right: 12px; background: #fff; box-shadow: inset 0 0 0 1px #808080; }
-.typing { animation: typing 1s steps(2) infinite; }
-@keyframes typing { 50% { opacity: .35; } }
-.chat-actions { margin-top: 6px; }
-.chips-row { display: flex; flex-direction: column; gap: 3px; margin-bottom: 6px; }
-.chips-row button { text-align: left; }
-.chat-form { flex: none; display: flex; gap: 4px; margin-top: 4px; }
-.chat-form input { flex: 1; min-width: 0; color: #111; }
-.chat-form button { min-width: 48px; }
-.chat-note { flex: none; margin-top: 4px; color: #555; font-size: 10px; }
+.chat-window { position: fixed; right: 12px; bottom: calc(var(--taskbar) + 8px); z-index: 1500; display: flex; flex-direction: column; width: 380px; height: min(520px, calc(100dvh - var(--taskbar) - 24px)); animation: bubble-pop .14s ease-out; transform-origin: bottom right; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff, 2px 3px 10px rgba(0, 0, 0, .3); }
+.chat-window .title-bar-text svg { flex: none; }
+.chat-log { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin: 3px 2px 0; padding: 12px; background: #fff; box-shadow: var(--sunken); font: var(--reading); color: #111; }
+.chat-empty { margin: auto 0; text-align: center; }
+.chat-empty h3 { margin: 8px 0 2px; font: 700 15px Tahoma, Arial, sans-serif; }
+.chat-empty p { margin: 0 0 14px; color: #444; }
+.chips-row { display: flex; flex-direction: column; gap: 4px; }
+.chips-row button { min-height: 28px; }
+.chat-msg { max-width: 88%; white-space: pre-wrap; overflow-wrap: anywhere; }
+.chat-msg.user { align-self: flex-end; padding: 5px 10px; background: var(--select, #000080); color: #fff; }
+.chat-msg.assistant { align-self: flex-start; }
+.chat-msg a { color: #00c; }
+.typing { display: inline-flex; gap: 4px; padding: 6px 0; }
+.typing i { width: 6px; height: 6px; background: #808080; animation: typing 1s steps(2) infinite; }
+.typing i:nth-child(2) { animation-delay: .2s; }
+.typing i:nth-child(3) { animation-delay: .4s; }
+@keyframes typing { 50% { opacity: .25; } }
+.chat-actions { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.chat-form { flex: none; display: flex; gap: 4px; padding: 6px 2px 2px; }
+.chat-form input[type="text"] { flex: 1; min-width: 0; height: 26px; color: #111; font: 13px Tahoma, Arial, sans-serif; }
+.chat-form button { min-width: 56px; }
+.chat-foot { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 18px; padding: 2px 4px; }
+.chat-foot small { color: #444; font: 10px Tahoma, Arial, sans-serif; }
+.chat-clear { flex: none; min-width: 0; min-height: 0; padding: 0; background: none; box-shadow: none; color: #00c; text-decoration: underline; text-shadow: none; }
+.chat-clear:not(:disabled):active { box-shadow: none; text-shadow: none; }
 .floppy-tray { position: relative; }
 .tray-dot { position: absolute; right: 0; top: 0; width: 6px; height: 6px; background: #d00; box-shadow: 0 0 0 1px #fff; }
 
@@ -473,10 +479,11 @@ fieldset { margin-bottom: 12px; }
   .floppy { right: 8px; }
   .floppy.tucked .floppy-char { display: none; }
   .floppy-char svg { width: 48px; height: 48px; }
-  .bubble-chat { width: calc(100vw - 16px); max-width: none; }
-  .chat-form input { height: 36px; font-size: 16px; }
+  .chat-window { left: 0; right: 0; bottom: var(--taskbar); width: 100%; height: calc(100dvh - var(--taskbar)); }
+  .chat-form input[type="text"] { height: 36px; font-size: 16px; }
+  .chips-row button { min-height: 40px; }
+  .chat-clear { min-height: 28px; font-size: 13px; }
   .bubble-close { width: 30px; height: 30px; font-size: 18px; }
-  .chat-log { margin-top: 26px; }
   .help { flex-direction: column; }
   .help .tree-view { flex: none; }
   .tray-box { height: 36px; }

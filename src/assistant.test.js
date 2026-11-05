@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildSystemPrompt, consumeAllowance, parseReply, validateChat, DAILY_LIMIT_PER_IP, DAILY_LIMIT_TOTAL, MAX_MESSAGES, MAX_USER_CHARS } from "./assistant.js";
+import { buildSystemPrompt, consumeAllowance, parseReply, splitLinks, validateChat, DAILY_LIMIT_PER_IP, DAILY_LIMIT_TOTAL, MAX_MESSAGES, MAX_USER_CHARS } from "./assistant.js";
 
 const user = (content) => ({ role: "user", content });
 
@@ -27,6 +27,13 @@ test("validateChat rejects anything that could run up cost or change the prompt"
     { messages: [user("   ")] },
   ];
   for (const body of bad) assert.ok(validateChat(body).error, JSON.stringify(body)?.slice(0, 60));
+});
+
+test("splitLinks only links URLs the site already lists", () => {
+  const known = "https://usemurmur.live/";
+  assert.deepEqual(splitLinks(`See ${known}.`), [{ text: "See " }, { text: known, url: known }, { text: "." }]);
+  assert.deepEqual(splitLinks("Go to https://evil.test/x now"), [{ text: "Go to " }, { text: "https://evil.test/x" }, { text: " now" }]);
+  assert.deepEqual(splitLinks("javascript:alert(1)"), [{ text: "javascript:alert(1)" }]);
 });
 
 test("daily allowance enforces both limits and resets the next day", () => {

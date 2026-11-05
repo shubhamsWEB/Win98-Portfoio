@@ -97,6 +97,26 @@ export function consumeAllowance(stored, day, ipKey) {
   };
 }
 
+// URLs the assistant may turn into links. Anything else stays plain text, so a
+// visitor can't trick it into showing a clickable link to somewhere unknown.
+const KNOWN_URLS = new Set([
+  ...Object.values(links),
+  ...projects.flatMap((p) => [p.live, p.source]),
+  ...updates.map((u) => u.url),
+].filter((url) => url?.startsWith("http")));
+
+export function splitLinks(text) {
+  return text
+    .split(/(https?:\/\/[^\s)]+)/)
+    .filter(Boolean)
+    .flatMap((part) => {
+      const url = part.replace(/[.,!?]+$/, "");
+      if (!KNOWN_URLS.has(url)) return [{ text: part }];
+      const rest = part.slice(url.length);
+      return rest ? [{ text: url, url }, { text: rest }] : [{ text: url, url }];
+    });
+}
+
 // Splits a reply into display text and allowed actions, and hides a marker still being streamed.
 export function parseReply(raw) {
   const actions = [];

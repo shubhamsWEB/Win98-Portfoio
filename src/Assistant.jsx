@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { apps } from "./apps.jsx";
-import { newestFirst, parseReply, MAX_USER_CHARS } from "./assistant.js";
+import { newestFirst, parseReply, splitLinks, MAX_USER_CHARS } from "./assistant.js";
 import { profile } from "./content.js";
 import { getSettings, setSettings, useSettings } from "./settings.js";
 import { play } from "./sound.js";
@@ -152,10 +152,93 @@ export default function Assistant({ openApp, windowOpen }) {
   const nextUnseen = NEWS.findIndex((u, i) => i !== newsIndex && !seenUpdates.includes(u.id));
   const item = NEWS[newsIndex];
 
+  if (view === "chat") {
+    return (
+      <section className="window chat-window" role="dialog" aria-labelledby="chat-title">
+        <div className="title-bar">
+          <div className="title-bar-text" id="chat-title">
+            <FloppyArt size={16} /> Ask Floppy
+          </div>
+          <div className="title-bar-controls">
+            <button aria-label="Close" onClick={close} />
+          </div>
+        </div>
+        <div className="chat-log" ref={logRef} role="log" aria-live="polite">
+          {messages.length === 0 ? (
+            <div className="chat-empty">
+              <FloppyArt size={48} />
+              <h3>Hi, I'm Floppy!</h3>
+              <p>Ask me anything about {profile.name}'s work.</p>
+              <div className="chips-row">
+                {SUGGESTIONS.map((s) => (
+                  <button key={s} onClick={() => ask(s)}>{s}</button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            messages.map((m, i) => {
+              const last = i === messages.length - 1;
+              const { text, actions } = m.role === "assistant" ? parseReply(m.content) : { text: m.content, actions: [] };
+              const thinking = m.role === "assistant" && !text && busy && last;
+              if (!text && !thinking) return null;
+              return (
+                <div key={i} className={`chat-msg ${m.role}`}>
+                  {thinking ? (
+                    <span className="typing" aria-label="Floppy is typing"><i /><i /><i /></span>
+                  ) : m.role === "assistant" ? (
+                    <MessageText text={text} />
+                  ) : (
+                    text
+                  )}
+                  {actions.length > 0 && !(busy && last) && (
+                    <div className="chat-actions">
+                      {actions.map((id) => (
+                        <button key={id} onClick={() => openApp(id)}>Open {ACTION_LABELS[id] ?? apps[id].title}</button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
+        <form
+          className="chat-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            ask(input);
+          }}
+        >
+          <input
+            ref={inputRef}
+            type="text"
+            aria-label="Your question"
+            placeholder="Ask a question..."
+            autoComplete="off"
+            maxLength={MAX_USER_CHARS}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          {busy ? (
+            <button type="button" onClick={() => abort.current?.abort()}>Stop</button>
+          ) : (
+            <button type="submit" className="default" disabled={!input.trim()}>Send</button>
+          )}
+        </form>
+        <div className="chat-foot">
+          <small>AI can make mistakes. Chats are processed by Anthropic.</small>
+          {messages.length > 0 && !busy && (
+            <button className="chat-clear" onClick={() => setMessages([])}>New chat</button>
+          )}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <div className={`floppy ${view ? "has-bubble" : ""} ${windowOpen && !view ? "tucked" : ""}`}>
       {view && (
-        <div className={`bubble ${view === "chat" ? "bubble-chat" : ""}`} role={view === "chat" ? "dialog" : "status"} aria-label="Floppy, the portfolio assistant">
+        <div className="bubble" role="status" aria-label="Floppy, the portfolio assistant">
           <button className="bubble-close" aria-label="Close" onClick={close}>×</button>
 
           {view === "greet" && (
@@ -184,76 +267,30 @@ export default function Assistant({ openApp, windowOpen }) {
               </div>
             </>
           )}
-
-          {view === "chat" && (
-            <>
-              <div className="chat-log" ref={logRef} role="log" aria-live="polite">
-                {messages.length === 0 && <p>Ask me anything about {profile.name}. I answer in real time!</p>}
-                {messages.map((m, i) => {
-                  const { text, actions } = m.role === "assistant" ? parseReply(m.content) : { text: m.content, actions: [] };
-                  const thinking = m.role === "assistant" && !text && busy && i === messages.length - 1;
-                  if (!text && !thinking) return null;
-                  return (
-                    <div key={i} className={`chat-msg ${m.role}`}>
-                      {thinking ? <span className="typing">Thinking...</span> : text}
-                      {actions.length > 0 && !(busy && i === messages.length - 1) && (
-                        <div className="row chat-actions">
-                          {actions.map((id) => (
-                            <button key={id} onClick={() => openApp(id)}>Open {ACTION_LABELS[id] ?? apps[id].title}</button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-              {messages.length === 0 && (
-                <div className="chips-row">
-                  {SUGGESTIONS.map((s) => (
-                    <button key={s} onClick={() => ask(s)}>{s}</button>
-                  ))}
-                </div>
-              )}
-              <form
-                className="chat-form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  ask(input);
-                }}
-              >
-                <input
-                  ref={inputRef}
-                  type="text"
-                  aria-label="Your question"
-                  placeholder="Type a question..."
-                  autoComplete="off"
-                  maxLength={MAX_USER_CHARS}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                />
-                {busy ? (
-                  <button type="button" onClick={() => abort.current?.abort()}>Stop</button>
-                ) : (
-                  <button type="submit" className="default" disabled={!input.trim()}>Ask</button>
-                )}
-              </form>
-              <small className="chat-note">AI answers can be wrong. Chats are processed by Anthropic.</small>
-            </>
-          )}
         </div>
       )}
 
       <button
-        className={`floppy-char ${busy ? "thinking" : ""}`}
+        className="floppy-char"
         aria-label="Floppy, the portfolio assistant. Click to chat"
         title="Right-click for options"
-        onClick={() => setView(view === "chat" ? null : "chat")}
+        onClick={() => setView("chat")}
         onContextMenu={(e) => openMenu(e, contextItems)}
       >
         <FloppyArt />
       </button>
       {menu}
     </div>
+  );
+}
+
+function MessageText({ text }) {
+  return splitLinks(text).map((part, i) =>
+    part.url ? (
+      <a key={i} href={part.url} target="_blank" rel="noreferrer">{part.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}</a>
+    ) : (
+      part.text
+    )
   );
 }
 
