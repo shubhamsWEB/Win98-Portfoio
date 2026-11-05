@@ -19,18 +19,18 @@ function sameOrigin(req) {
 
 // One blob holds today's counts and resets itself each day, so nothing accumulates.
 // The day is mixed into the hash, so stored IPs can't be linked across days.
-async function spendAllowance(ip) {
+async function spendAllowance(ip, blobKey) {
   const store = getStore({ name: "floppy-usage", consistency: "strong" });
   const day = new Date().toISOString().slice(0, 10);
   const ipKey = createHash("sha256").update(`${day}:${ip}`).digest("hex").slice(0, 16);
   for (let attempt = 0; attempt < WRITE_ATTEMPTS; attempt++) {
-    const current = await store.getWithMetadata("usage", { type: "json" });
+    const current = await store.getWithMetadata(blobKey, { type: "json" });
     // onlyIfMatch: undefined would silently write unconditionally and break the ceiling.
     if (current && !current.etag) throw new Error("usage blob has no etag");
     const { allowed, usage } = consumeAllowance(current?.data, day, ipKey);
     if (!allowed) return "daily";
     // Compare-and-swap: a parallel request that wrote first makes this retry, so bursts can't overspend.
-    const { modified } = await store.setJSON("usage", usage, current ? { onlyIfMatch: current.etag } : { onlyIfNew: true });
+    const { modified } = await store.setJSON(blobKey, usage, current ? { onlyIfMatch: current.etag } : { onlyIfNew: true });
     if (modified) return "ok";
   }
   return "busy"; // lost every race: refuse rather than risk an uncounted request
@@ -61,7 +61,8 @@ export default async function handler(req, context) {
 
   let allowance;
   try {
-    allowance = await spendAllowance(context?.ip ?? "unknown");
+    // Previews count separately, so testing one never uses up the live site's allowance.
+    allowance = await spendAllowance(context?.ip ?? "unknown", `usage-${context?.deploy?.context ?? "production"}`);
   } catch (err) {
     // Fail closed: if the counter can't be read, the spending ceiling can't be enforced.
     console.error("assistant allowance error:", err?.name);
