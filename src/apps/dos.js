@@ -21,6 +21,7 @@ export const programs = {
   projects: "projects",
   about: "about",
   contact: "contact",
+  resume: "resume",
 };
 
 export function resolveUrl(text) {
@@ -38,6 +39,7 @@ const HELP = [
   "WHOAMI     Who built this        SKILLS      Tech I work with",
   "PROJECTS   List my projects      OPEN name   Open a project",
   "JOBS       Work history          CONTACT     Send me a message",
+  "RESUME     Open my resume",
   "START app  Run a program         VER         Version",
   "DATE       Show the date         EXIT        Close this window",
 ];

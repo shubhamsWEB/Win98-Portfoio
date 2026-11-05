@@ -22,12 +22,12 @@ export default function Welcome({ openApp, close }) {
           <p>{profile.tagline}</p>
           <p>
             6+ years shipping production software. Currently a {profile.title.toLowerCase()} at Ford,
-            and the creator of Murmur and NexusCode.
+            and the creator of Murmur.
           </p>
         </div>
         <div className="welcome-actions">
           <button className="default" onClick={() => go("projects")}>See my projects</button>
-          <button onClick={() => go("about", { tab: "Experience" })}>View experience</button>
+          <button onClick={() => go("resume")}>View my resume</button>
           <button onClick={() => go("contact")}>Get in touch</button>
           <button onClick={close}>Explore the desktop</button>
         </div>

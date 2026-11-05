@@ -16,6 +16,11 @@ export default function Find({ openApp }) {
         text: `${j.company} ${j.role} ${j.points.join(" ")}`,
         open: () => openApp("about", { tab: "Experience" }),
       })),
+      {
+        id: "resume", name: "Resume.pdf", where: "C:\\", icon: icons.pdf,
+        text: "resume cv pdf download " + documents["RESUME.TXT"],
+        open: () => openApp("resume"),
+      },
       ...Object.keys(documents).map((d) => ({
         id: d, name: d, where: "C:\\", icon: icons.notepad, text: `${d} ${documents[d]}`,
         open: () => openApp("notepad", { doc: d, text: documents[d] }),

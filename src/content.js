@@ -4,12 +4,12 @@ export const profile = {
   title: "Software Engineer",
   tagline: "I build AI agent systems and the products around them.",
   summary:
-    "Software engineer with 6+ years designing, building and running production software across distributed systems, cloud and LLM infrastructure. By day I ship global web experiences at Ford. On my own time I build Murmur, a private voice assistant, and NexusCode, a codebase intelligence platform for AI agents.",
+    "Software engineer with 6+ years designing, building and running production software across distributed systems, cloud and LLM infrastructure. I ship global web experiences at Ford, and I built Murmur, a private voice assistant.",
   facts: [
     ["Role", "Software Engineer, Ford Motor Company"],
     ["Experience", "6+ years"],
     ["Focus", "AI agents, full-stack, cloud"],
-    ["Based in", "India (IST)"],
+    ["Based in", "Bengaluru, India (IST)"],
   ],
 };
 
@@ -18,6 +18,7 @@ export const links = {
   linkedin: "https://www.linkedin.com/in/shubham-agrawal-950078170/",
   blog: "https://shubhamsweb.hashnode.dev/",
   npm: "https://www.npmjs.com/~shubham_17",
+  resume: "/Shubham_Agrawal_Resume.pdf",
 };
 
 export const experience = [
@@ -83,17 +84,6 @@ export const projects = [
     stack: ["Swift", "On-device speech", "Local models", "AI agents"],
     live: "https://usemurmur.live/",
     source: "https://github.com/shubhamsWEB/murmur-app",
-    frame: true,
-  },
-  {
-    id: "nexus",
-    folder: "ai",
-    name: "NexusCode",
-    year: "2026",
-    desc: "A self-hosted codebase intelligence server for AI agents. Indexes GitHub repositories, stays fresh through push webhooks, and exposes semantic search, caller tracing and grounded implementation plans over REST and MCP.",
-    stack: ["Python", "MCP", "pgvector", "BM25", "Knowledge graph"],
-    live: "https://usenexuscode.vercel.app/",
-    source: "https://github.com/shubhamsWEB/NexusCode",
     frame: true,
   },
   {

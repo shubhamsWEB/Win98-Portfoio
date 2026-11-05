@@ -18,6 +18,7 @@ import Run from "./apps/Run.jsx";
 import Display from "./apps/Display.jsx";
 import Help from "./apps/Help.jsx";
 import MessageBox from "./apps/MessageBox.jsx";
+import Resume from "./apps/Resume.jsx";
 import { icons as i } from "./icons.js";
 
 // Keys double as URL hashes: yoursite/#projects opens that window directly.
@@ -27,6 +28,7 @@ export const apps = {
   projects: { title: "C:\\Projects", icon: i.folder, Component: Projects, w: 800, h: 540 },
   contact: { title: "New Message", icon: i.message, Component: Contact, w: 460, h: 460 },
   browser: { title: "Internet Explorer", icon: i.explorer, Component: Browser, w: 900, h: 620 },
+  resume: { title: "Resume.pdf", icon: i.pdf, Component: Resume, w: 720, h: 620 },
   computer: { title: "My Computer", icon: i.computer, Component: Computer, w: 480, h: 340 },
   control: { title: "Control Panel", icon: i.control, Component: Control, w: 460, h: 320 },
   recycle: { title: "Recycle Bin", icon: i.recycle, Component: Recycle, w: 500, h: 340 },

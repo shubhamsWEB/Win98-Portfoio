@@ -35,6 +35,7 @@ export default function Taskbar({ wm, focused, dispatch, openApp, viewport, onSh
   const startItems = [
     app("projects", "My Projects"),
     app("about", "About Me", { tab: "General" }),
+    app("resume", "My Resume"),
     app("contact", "Send a Message"),
     { separator: true },
     {
@@ -55,14 +56,13 @@ export default function Taskbar({ wm, focused, dispatch, openApp, viewport, onSh
     {
       label: "Documents",
       icon: icons.paste,
-      items: [doc("README.TXT"), doc("RESUME.TXT"), app("about", "Experience", { tab: "Experience" })],
+      items: [app("resume", "Resume.pdf"), doc("README.TXT"), doc("RESUME.TXT"), app("about", "Experience", { tab: "Experience" })],
     },
     {
       label: "Favorites",
       icon: icons.folder,
       items: [
         { label: "Murmur", icon: icons.explorer, onClick: external(liveOf("murmur")) },
-        { label: "NexusCode", icon: icons.explorer, onClick: external(liveOf("nexus")) },
         { separator: true },
         { label: "GitHub", icon: icons.github, onClick: external(links.github) },
         { label: "LinkedIn", icon: icons.linkedin, onClick: external(links.linkedin) },

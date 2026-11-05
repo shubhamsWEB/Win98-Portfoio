@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { icons } from "../icons.js";
-import { documents } from "../content.js";
 import { MenuBar } from "../ui/Menu.jsx";
 import IconView from "../ui/IconView.jsx";
 
@@ -15,7 +14,7 @@ export default function Computer({ openApp, close }) {
   const items = [
     { id: "a", name: "3½ Floppy (A:)", icon: icons.floppy, detail: "Removable disk", onOpen: () => notReady("A:\\") },
     { id: "c", name: "Projects (C:)", icon: icons.drive, detail: "Local disk: everything I've built", onOpen: () => openApp("projects") },
-    { id: "d", name: "Resume (D:)", icon: icons.cd, detail: "CD-ROM: read only", onOpen: () => openApp("notepad", { doc: "RESUME.TXT", text: documents["RESUME.TXT"] }) },
+    { id: "d", name: "Resume (D:)", icon: icons.cd, detail: "CD-ROM: read only", onOpen: () => openApp("resume") },
     { id: "control", name: "Control Panel", icon: icons.control, detail: "Change how the desktop looks and sounds", onOpen: () => openApp("control") },
   ];
   return (

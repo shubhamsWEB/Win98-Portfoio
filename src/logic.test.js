@@ -46,6 +46,7 @@ test("dos commands", () => {
   assert.equal(run("start notepad", "C:\\").app, "notepad");
   assert.ok(run("type readme.txt", "C:\\").out[0].startsWith("Welcome"));
   assert.equal(run("exit", "C:\\").exit, true);
+  assert.equal(run("resume", "C:\\").app, "resume");
   assert.deepEqual(run("", "C:\\").out, []);
 });
 

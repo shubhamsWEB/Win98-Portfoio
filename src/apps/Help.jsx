@@ -22,7 +22,7 @@ const TOPICS = [
     title: "Finding my work",
     body: [
       "My Projects holds everything, sorted into folders. Select a project to see screenshots and links.",
-      "About Me has my experience and skills. RESUME.TXT is the same thing in plain text.",
+      "About Me has my experience and skills. Resume.pdf on the desktop is my full resume, ready to download.",
       "Find, on the Start menu, searches all of it.",
     ],
   },

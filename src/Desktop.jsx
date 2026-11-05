@@ -11,6 +11,7 @@ const SHORTCUTS = [
   { id: "projects", title: "My Projects", icon: icons.folder },
   { id: "about", title: "About Me", icon: icons.users },
   { id: "experience", title: "Experience", icon: icons.text, app: "about", props: { tab: "Experience" } },
+  { id: "resume", title: "Resume.pdf", icon: icons.pdf },
   { id: "recycle", title: "Recycle Bin", icon: icons.recycle },
   { id: "browser", title: "Live Demos", icon: icons.explorer },
   { id: "contact", title: "Send a Message", icon: icons.message },
