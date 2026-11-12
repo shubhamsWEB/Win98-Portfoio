@@ -113,7 +113,7 @@ export const projects = [
     year: "2026",
     desc: "Real-time multiplayer Sudoku with five modes: race a rival in Clash, fight over one shared board in Territory, take turns in Duel, survive an 8-player Battle Royale, or team up in Split Sight co-op. Solo play has teaching hints, a daily puzzle and a 3D board. Free in the browser, with Android and iOS apps on the way.",
     notes:
-      "Sudoku Clan grew out of Sudoku 2.0, one of Shubham's first React projects from 2021, rebuilt from scratch in 2026. Clash is a 1 v 1 race on the same puzzle where finishing rows fires attacks such as Ice and Fog. Territory is 1 v 1 on one shared board, claiming cells in your colour. Duel is turn-based, and harder logic scores more. Battle Royale puts up to 8 players on quick sprint boards and knocks out the slowest each round. Split Sight is two-player co-op where each player sees different clues. Players can quick match or invite a friend with a room code, play as a guest or sign in with Google to keep progress, and each competitive mode has its own rating. The game server is the referee for every move, so results can't be faked, and live matches carry on through server updates. Puzzles are generated to be solvable by logic alone and graded by the hardest technique they need. One TypeScript engine is shared by the React app and the Node.js WebSocket server, and the mobile apps wrap the same build with Capacitor. This site has a Sudoku Clan program on the desktop that launches any mode in a new tab.",
+      "Sudoku Clan grew out of Sudoku 2.0, one of Shubham's first React projects from 2021, rebuilt from scratch in 2026. Clash is a 1 v 1 race on the same puzzle where finishing rows fires attacks such as Ice and Fog. Territory is 1 v 1 on one shared board, claiming cells in your colour. Duel is turn-based, and harder logic scores more. Battle Royale puts up to 8 players on quick sprint boards and knocks out the slowest each round. Split Sight is two-player co-op where each player sees different clues. Players can quick match or invite a friend with a room code, play as a guest or sign in with Google to keep progress, and each competitive mode has its own rating. The game server is the referee for every move, so results can't be faked, and live matches carry on through server updates. Puzzles are generated to be solvable by logic alone and graded by the hardest technique they need. One TypeScript engine is shared by the React app and the Node.js WebSocket server, and the mobile apps wrap the same build with Capacitor. This site has a Sudoku Clan program on the desktop that runs the game inside a window.",
     stack: ["React", "TypeScript", "Node.js", "WebSockets", "Three.js"],
     live: "https://sudokuclan.app/",
     play: "https://play.sudokuclan.app/",
@@ -235,18 +235,6 @@ export const projects = [
     frame: true,
   },
 ];
-
-// The Sudoku Clan program on the desktop. `id` is the game's own ?play= value.
-export const sudokuClan = {
-  tagline: "Sudoku, but multiplayer. Free, real-time, no download.",
-  modes: [
-    { id: "clash", name: "Clash", players: "1 v 1", desc: "Race the same puzzle. Finish rows to fire attacks, finish more to block them." },
-    { id: "territory", name: "Territory", players: "1 v 1", desc: "One shared board. Claim cells in your colour and lock rows and boxes for bonus points." },
-    { id: "duel", name: "Duel", players: "1 v 1, turn-based", desc: "Take turns, three digits each. Harder logic scores more, and guesses score nothing." },
-    { id: "royale", name: "Battle Royale", players: "Up to 8 players", desc: "Quick sprint boards. The slowest players are knocked out each round." },
-    { id: "coop", name: "Split Sight", players: "2 players, co-op", desc: "You each see different clues, so share wisely and solve it together." },
-  ],
-};
 
 // Files visitors can open in Notepad or read from the MS-DOS Prompt.
 const resumeLines = [

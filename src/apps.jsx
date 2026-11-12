@@ -39,7 +39,7 @@ export const apps = {
   calculator: { title: "Calculator", icon: i.calc, Component: Calculator, w: 260, h: 310, resizable: false },
   bughunt: { title: "Bug Hunt", icon: i.bug, Component: BugHunt, w: 320, h: 430, resizable: false },
   reels: { title: "Lucky Reels", icon: i.reels, Component: Reels, w: 320, h: 300, resizable: false },
-  sudoku: { title: "Sudoku Clan", icon: i.sudoku, Component: Sudoku, w: 400, h: 400, resizable: false },
+  sudoku: { title: "Sudoku Clan", icon: i.sudoku, Component: Sudoku, w: 440, h: 760 },
   find: { title: "Find: All Files", icon: i.search, Component: Find, w: 520, h: 400 },
   run: { title: "Run", icon: i.run, Component: Run, w: 380, h: 170, resizable: false },
   display: { title: "Display Properties", icon: i.display, Component: Display, w: 410, h: 470, resizable: false },
