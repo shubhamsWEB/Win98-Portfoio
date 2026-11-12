@@ -26,7 +26,7 @@ export function buildSystemPrompt() {
     .map((j) => `- ${j.role}, ${j.company} (${j.period}): ${j.points.join(" ")}`)
     .join("\n");
   const built = projects
-    .map((p) => `- ${p.name} (${p.year}): ${p.desc} Stack: ${p.stack.join(", ")}.${p.live ? ` Link: ${p.live}` : ""}`)
+    .map((p) => `- ${p.name} (${p.year}): ${p.desc}${p.notes ? ` ${p.notes}` : ""} Stack: ${p.stack.join(", ")}.${p.live ? ` Link: ${p.live}` : ""}`)
     .join("\n");
   const news = newestFirst()
     .map((u) => `- ${u.date} [${u.source}] ${u.title}: ${u.text}${u.url ? ` Link: ${u.url}` : ""}`)
