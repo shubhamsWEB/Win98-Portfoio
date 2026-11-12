@@ -50,7 +50,7 @@ export default function Taskbar({ wm, focused, dispatch, openApp, viewport, onSh
           icon: icons.directory,
           items: [app("calculator", "Calculator"), app("notepad", "Notepad", { doc: null, text: "" }), app("paint", "Paint")],
         },
-        { label: "Games", icon: icons.directory, items: [app("bughunt", "Bug Hunt"), app("reels", "Lucky Reels")] },
+        { label: "Games", icon: icons.directory, items: [app("bughunt", "Bug Hunt"), app("reels", "Lucky Reels"), app("sudoku", "Sudoku Clan")] },
         app("browser", "Internet Explorer"),
         app("dos", "MS-DOS Prompt"),
         app("computer", "Windows Explorer"),

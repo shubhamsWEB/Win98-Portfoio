@@ -17,6 +17,7 @@ export const programs = {
   display: "display",
   bughunt: "bughunt",
   reels: "reels",
+  sudoku: "sudoku",
   help: "help",
   projects: "projects",
   about: "about",

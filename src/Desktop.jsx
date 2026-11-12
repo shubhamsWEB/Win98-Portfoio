@@ -9,6 +9,7 @@ const openDoc = (name) => ({ doc: name, text: documents[name] });
 const SHORTCUTS = [
   { id: "computer", title: "My Computer", icon: icons.computer },
   { id: "projects", title: "My Projects", icon: icons.folder },
+  { id: "sudoku", title: "Sudoku Clan", icon: icons.sudoku, link: true },
   { id: "about", title: "About Me", icon: icons.users },
   { id: "experience", title: "Experience", icon: icons.text, app: "about", props: { tab: "Experience" } },
   { id: "resume", title: "Resume.pdf", icon: icons.pdf },
