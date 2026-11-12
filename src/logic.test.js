@@ -44,6 +44,7 @@ test("dos commands", () => {
   assert.equal(run("cd..", "C:\\PROJECTS").cwd, "C:\\");
   assert.equal(run("open murmur", "C:\\").url, "https://usemurmur.live/");
   assert.equal(run("start notepad", "C:\\").app, "notepad");
+  assert.equal(run("start sudoku", "C:\\").app, "sudoku");
   assert.ok(run("type readme.txt", "C:\\").out[0].startsWith("Welcome"));
   assert.equal(run("exit", "C:\\").exit, true);
   assert.equal(run("resume", "C:\\").app, "resume");

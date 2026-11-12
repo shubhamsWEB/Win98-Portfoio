@@ -32,6 +32,7 @@ test("validateChat rejects anything that could run up cost or change the prompt"
 test("splitLinks only links URLs the site already lists", () => {
   const known = "https://usemurmur.live/";
   assert.deepEqual(splitLinks(`See ${known}.`), [{ text: "See " }, { text: known, url: known }, { text: "." }]);
+  assert.equal(splitLinks("https://play.sudokuclan.app/")[0].url, "https://play.sudokuclan.app/");
   assert.deepEqual(splitLinks("Go to https://evil.test/x now"), [{ text: "Go to " }, { text: "https://evil.test/x" }, { text: " now" }]);
   assert.deepEqual(splitLinks("javascript:alert(1)"), [{ text: "javascript:alert(1)" }]);
 });
@@ -51,6 +52,7 @@ test("daily allowance enforces both limits and resets the next day", () => {
 
 test("parseReply extracts allowed actions and ignores everything else", () => {
   assert.deepEqual(parseReply("Look! [[open:projects]]"), { text: "Look!", actions: ["projects"] });
+  assert.deepEqual(parseReply("Play! [[open:sudoku]]").actions, ["sudoku"]);
   assert.deepEqual(parseReply("x [[open:evil]] [[open:about]][[open:about]]"), { text: "x", actions: ["about"] });
   assert.equal(parseReply("[[open:https://evil.test]] hi").actions.length, 0);
 });

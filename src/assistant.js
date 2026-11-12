@@ -14,7 +14,7 @@ export const DAILY_LIMIT_PER_IP = 20;
 export const DAILY_LIMIT_TOTAL = 200;
 
 // Windows the assistant may offer to open. Anything else it writes is ignored.
-export const OPENABLE = ["projects", "about", "resume", "contact", "browser", "bughunt", "dos", "paint"];
+export const OPENABLE = ["projects", "about", "resume", "contact", "browser", "sudoku", "bughunt", "dos", "paint"];
 
 export const openFloppy = () => dispatchEvent(new Event("floppy-open"));
 
@@ -26,7 +26,7 @@ export function buildSystemPrompt() {
     .map((j) => `- ${j.role}, ${j.company} (${j.period}): ${j.points.join(" ")}`)
     .join("\n");
   const built = projects
-    .map((p) => `- ${p.name} (${p.year}): ${p.desc}${p.notes ? ` ${p.notes}` : ""} Stack: ${p.stack.join(", ")}.${p.live ? ` Link: ${p.live}` : ""}`)
+    .map((p) => `- ${p.name} (${p.year}): ${p.desc}${p.notes ? ` ${p.notes}` : ""} Stack: ${p.stack.join(", ")}.${p.live ? ` Link: ${p.live}` : ""}${p.play ? ` Play: ${p.play}` : ""}`)
     .join("\n");
   const news = newestFirst()
     .map((u) => `- ${u.date} [${u.source}] ${u.title}: ${u.text}${u.url ? ` Link: ${u.url}` : ""}`)
@@ -103,7 +103,7 @@ export function consumeAllowance(stored, day, ipKey) {
 // visitor can't trick it into showing a clickable link to somewhere unknown.
 const KNOWN_URLS = new Set([
   ...Object.values(links),
-  ...projects.flatMap((p) => [p.live, p.source]),
+  ...projects.flatMap((p) => [p.live, p.play, p.source]),
   ...updates.map((u) => u.url),
 ].filter((url) => url?.startsWith("http")));
 
