@@ -64,6 +64,6 @@ test("parseReply hides a marker that is still streaming", () => {
 
 test("system prompt has the facts and none of the excluded details", () => {
   const prompt = buildSystemPrompt();
-  for (const fact of ["Murmur", "Ford Motor Company", "Murmur 1.5.1", "Bengaluru"]) assert.ok(prompt.includes(fact), fact);
+  for (const fact of ["Murmur", "Ford Motor Company", "Murmur 1.7.3", "Hinglish", "Sudoku Clan", "Battle Royale", "Bengaluru"]) assert.ok(prompt.includes(fact), fact);
   for (const excluded of [/nexus/i, /saleshq/i, /\+\d{1,3}[\s-]?\d{6,}/, /@gmail\.com/]) assert.ok(!excluded.test(prompt), String(excluded));
 });
